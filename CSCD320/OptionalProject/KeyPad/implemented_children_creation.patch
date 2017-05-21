@@ -1,0 +1,23 @@
+Index: OptionalProject/KeyPad/src/BinaryTree.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- OptionalProject/KeyPad/src/BinaryTree.java	(date 1486506888000)
++++ OptionalProject/KeyPad/src/BinaryTree.java	(revision )
+@@ -1,4 +1,3 @@
+-
+ class BinaryTree {
+     private Node root;
+     private final Character[][] numberCharacters = {{}, {}, {'a', 'b', 'c', null}, {'d', 'e', 'f', null},
+Index: OptionalProject/KeyPad/src/BinaryTester.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- OptionalProject/KeyPad/src/BinaryTester.java	(date 1486506888000)
++++ OptionalProject/KeyPad/src/BinaryTester.java	(revision )
+@@ -1,2 +1,3 @@
+ public class BinaryTester {
++
+ }

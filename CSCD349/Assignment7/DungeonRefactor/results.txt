@@ -1,0 +1,129 @@
+Would you like to load an existing game? (y/n)
+n
+Please enter how many characters on your team you would like to play with(3 max)
+2
+
+Choose a hero:
+1. Warrior
+2. Sorceress
+3. Thief
+4. Archer
+5. Marauder
+
+4
+
+Choose a hero:
+1. Warrior
+2. Sorceress
+3. Thief
+4. Archer
+5. Marauder
+
+2
+
+Choose hero 1's basic weapon:
+1. Rusty Blade
+2. Wood Club
+3. Dagger
+4. Mighty Sword
+5. FireBall
+6. Arrow
+7. Greatsword
+8. Kris
+
+6
+
+Choose hero 2's basic weapon:
+1. Rusty Blade
+2. Wood Club
+3. Dagger
+4. Mighty Sword
+5. FireBall
+6. Arrow
+7. Greatsword
+8. Kris
+
+1
+
+Choose hero 1's Special move:
+1. Crushing Blow
+2. Heal
+3. Surprise Attack
+
+1
+
+Choose hero 2's Special move:
+1. Crushing Blow
+2. Heal
+3. Surprise Attack
+
+1
+Enter character name: Jefferey
+Enter character name: Willis
+
+Please select a Hero to attack with
+1) Jefferey the Archer
+2) Willis the Sorceress
+
+1
+
+Please select a Monster to attack
+1) Sargath the Skeleton
+2) Sylok the Defiled
+
+2
+Jefferey the Archer battles Sylok the Defiled
+---------------------------------------------
+Number of turns this round is: 1
+1. Attacks Opponent
+2. Crushing Blow
+Choose an option: 2
+Jefferey the Archer lands a CRUSHING BLOW for 174 damage!
+Sylok the Defiled hit  for <174> points damage.
+Sylok the Defiled now has 0 hit points remaining.
+
+Sylok the Defiled has been killed :-(
+
+-->q to save and quit, anything else to continue: q
+Saving game
+Play again (y/n)?
+y
+Would you like to load an existing game? (y/n)
+y
+
+Please select a Hero to attack with
+1) Jefferey the Archer
+2) Willis the Sorceress
+
+2
+
+Please select a Monster to attack
+1) Sargath the Skeleton
+2) DEAD
+
+1
+Willis the Sorceress battles Sargath the Skeleton
+---------------------------------------------
+Number of turns this round is: 1
+1. Attacks Opponent
+2. Crushing Blow
+Choose an option: 1
+
+Willis the Sorceress slices their rusty blade at Sargath the Skeleton:
+Sargath the Skeleton hit  for <29> points damage.
+Sargath the Skeleton now has 71 hit points remaining.
+
+Sargath the Skeleton healed itself for 32 points.
+Total hit points remaining are: 103
+
+
+
+Sargath the Skeleton slowly swings a club toward's Willis the Sorceress:
+Sargath the Skeleton's attack on Willis the Sorceress failed!
+
+
+-->q to save and quit, anything else to continue: q
+Saving game
+Play again (y/n)?
+n
+Ending game

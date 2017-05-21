@@ -1,0 +1,39 @@
+Customer name:    Bob Joe
+Date:    11/7/16
+Work Done:    Oil Change
+Hours Worked:    1.00
+Price per Hour:    $12.00
+Total Cost before Tax:    $12.00
+Total Cost after Tax:    $ 12.96
+
+Customer name:    Joe Bob
+Date:    11/8/16
+Work Done:    Engine Overhaul
+Hours Worked:    8.00
+Price per Hour:    $20.67
+Total Cost before Tax:    $165.36
+Total Cost after Tax:    $ 178.59
+
+Customer name:    Mary Jane
+Date:    4/20/16
+Work Done:    Exhaust Repair
+Hours Worked:    4.20
+Price per Hour:    $42.00
+Total Cost before Tax:    $176.40
+Total Cost after Tax:    $ 190.51
+
+Customer name:    that one guy
+Date:    this one date
+Work Done:    Part Replacement
+Hours Worked:    1.50
+Price per Hour:    $15.05
+Total Cost before Tax:    $22.58
+Total Cost after Tax:    $ 24.38
+
+Customer name:    N/A
+Date:    N/A
+Work Done:    N/A
+Hours Worked:    0.00
+Price per Hour:    $0.00
+Total Cost before Tax:    $0.00
+Total Cost after Tax:    $ 0.00
