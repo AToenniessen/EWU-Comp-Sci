@@ -7,7 +7,7 @@ public class ExporterXML extends A_Exporter{
     }
     @Override
     public void addPoint(String id, Point3D point){
-        append("\t\t<point id=" + id + " x=" + point.getX() + " y=" + point.getY() + " z=" + point.getZ() + "/>\n");
+        append("\t\t<point id=\"" + id + "\" x=\"" + point.getX() + "\" y=\"" + point.getY() + "\" z=\"" + point.getZ() + "\"/>\n");
     }
     public void closeComponentNode(String id){
         if(isComponentClosed())
@@ -32,7 +32,7 @@ public class ExporterXML extends A_Exporter{
             throw new TaskException("Cannot open new Component while one is still open");
         setTag(id);
         setComponentClosed(false);
-        append("\t<component id=\"" + id + "\" isRoot = true>\n");
+        append("\t<component id=\"" + id + "\" isRoot=\"true\">\n");
 
     }
     public void openComponentNode(String id, String idParent){
