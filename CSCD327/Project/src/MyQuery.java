@@ -46,22 +46,57 @@ public class MyQuery {
 
     public void findGPAInfo() throws SQLException
     {
-
+        String query1 = "CREATE TEMPORARY TABLE temp\n" +
+                "  SELECT *\n" +
+                "  FROM takes;\n";
+        String query2 = "ALTER TABLE temp\n" +
+                "    ADD COLUMN grade_val VARCHAR(4);\n";
+        String query3 = "UPDATE temp SET grade_val = (CASE\n" +
+                "    WHEN grade = 'A' THEN 4.0\n" +
+                "    WHEN grade = 'A-' THEN 3.67\n" +
+                "    WHEN grade = 'B+' THEN 3.33\n" +
+                "    WHEN grade = 'B' THEN 3.0\n" +
+                "    WHEN grade = 'B-' THEN 2.67\n" +
+                "    WHEN grade = 'C+' THEN 2.33\n" +
+                "    WHEN grade = 'C' THEN 2.0\n" +
+                "    WHEN grade = 'C-' THEN 1.67\n" +
+                "    WHEN grade = 'D+' THEN 1.33\n" +
+                "    WHEN grade = 'D' THEN 1.0\n" +
+                "    WHEN grade = 'D-' THEN 0.67\n" +
+                "    WHEN grade = 'F' then 0.0 END)\n" +
+                "WHERE grade IS NOT NULL;\n";
+        String query4 = "SELECT temp.ID, name, sum(grade_val * credits) / sum(credits) as GPA\n" +
+                "  from temp NATURAL join student natural JOIN course GROUP BY student.ID;\n";
+        statement.executeUpdate(query1);
+        statement.executeUpdate(query2);
+        statement.executeUpdate(query3);
+        resultSet = statement.executeQuery(query4);
     }
 
     public void printGPAInfo() throws IOException, SQLException
     {
         System.out.println("******** Query 1 ********");
+        System.out.format("%-11s %-11s %-11s\n", "ID", "Name", "GPA");
+        while(resultSet.next()){
+            System.out.format("%-11s %-11s %-11s\n", resultSet.getString(1), resultSet.getString(2), resultSet.getString(3));
+        }
     }
 
     public void findMorningCourses() throws SQLException
     {
-
+        String query1 = "SELECT course_id, title, sec_id, semester, year, name, count(DISTINCT takes.ID) as enrollment\n" +
+                "    FROM course NATURAL JOIN section natural JOIN teaches natural JOIN\n" +
+                "instructor NATURAL JOIN time_slot JOIN takes USING (course_id, sec_id, semester, year)\n" +
+                "WHERE start_hr <= 12\n" +
+                "GROUP BY course_id, sec_id, semester, year\n" +
+                "having enrollment <> 0;\n";
+        resultSet = statement.executeQuery(query1);
     }
 
     public void printMorningCourses() throws IOException, SQLException
     {
         System.out.println("******** Query 2 ********");
+        System.out.format("%")      //finish this
     }
 
     public void findBusyInstructor() throws SQLException
