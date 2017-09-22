@@ -19,7 +19,7 @@ public class Main extends Application {
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction((ActionEvent event) -> {
-            setmStatus("Hello World!");
+            setStatus("Hello World!");
         });
 
         BorderPane root = new BorderPane();
@@ -43,8 +43,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    public void setmStatus(String s){
-        mStatus = new Label(s);
+    public void setStatus(String s){
+        mStatus.setText(s);
     }
     private MenuBar buildMenus(){
         MenuBar menuBar = new MenuBar();
