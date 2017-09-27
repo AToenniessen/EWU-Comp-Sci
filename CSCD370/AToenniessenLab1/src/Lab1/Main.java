@@ -24,7 +24,7 @@ public class Main extends Application implements ChangeListener<String> {
     @Override
     public void start(Stage primaryStage) {
 
-        setmImageView("logo.png");          //Sets image onto image view
+        setmImageView("logo.png");         
         setStatus("First Album, 1979");
 
         ListView<String> list = new ListView<>();
