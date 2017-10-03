@@ -64,24 +64,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    private void drawLine(Canvas canvas, Paint color){
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setStroke(color);
-        gc.strokeLine(mStart.getX(), mStart.getY(), mEnd.getX(), mEnd.getY());
-    }
-    private void clearCanvas(Canvas canvas){
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
-    private Point2D getPoint(MouseEvent event){
-        return new Point2D(event.getX(), event.getY());
-    }
-    private Canvas blankCanvas(int w, int h, Paint color){
-        Canvas newCanvas = new Canvas(w, h);
-        newCanvas.getGraphicsContext2D().setFill(color);
-        newCanvas.getGraphicsContext2D().fillRect(0, 0, newCanvas.getWidth(), newCanvas.getHeight());
-        return newCanvas;
-    }
+
 
 
     public static void main(String[] args) {
@@ -125,11 +108,17 @@ public class Main extends Application {
                 new RadioMenuItem("_1 Pixel"), new RadioMenuItem("_4 Pixels"),
                 new RadioMenuItem("_8 Pixels")
         };
-        widthItems[0].setOnAction(actionEvent -> setStatus("Pixel Width 1"));
+        widthItems[0].setOnAction(actionEvent -> {
+            setStatus("Pixel Width 1");
+        });
 
-        widthItems[1].setOnAction(actionEvent -> setStatus("Pixel Width 4"));
+        widthItems[1].setOnAction(actionEvent -> {
+            setStatus("Pixel Width 4");
+        });
 
-        widthItems[2].setOnAction(actionEvent -> setStatus("Pixel Width 8"));
+        widthItems[2].setOnAction(actionEvent -> {
+            setStatus("Pixel Width 8");
+        });
 
         widthMenu.getItems().addAll(widthItems);
 
@@ -166,5 +155,23 @@ public class Main extends Application {
         alert.setTitle("About");
         alert.setHeaderText("Alexander Toenniessen, CSCD 370 Lab 2, Fall 2017");
         alert.showAndWait();
+    }
+    private void drawLine(Canvas canvas, Paint color){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setStroke(color);
+        gc.strokeLine(mStart.getX(), mStart.getY(), mEnd.getX(), mEnd.getY());
+    }
+    private void clearCanvas(Canvas canvas){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+    private Point2D getPoint(MouseEvent event){
+        return new Point2D(event.getX(), event.getY());
+    }
+    private Canvas blankCanvas(int w, int h, Paint color){
+        Canvas newCanvas = new Canvas(w, h);
+        newCanvas.getGraphicsContext2D().setFill(color);
+        newCanvas.getGraphicsContext2D().fillRect(0, 0, newCanvas.getWidth(), newCanvas.getHeight());
+        return newCanvas;
     }
 }
