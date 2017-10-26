@@ -66,7 +66,7 @@ public class Main extends Application {
     private void onAbout() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
-        alert.setHeaderText("Paul H Schimpf, CSCD 370 Lab 0, Fall 2017");
+        alert.setHeaderText("Alexander Toenniessen, CSCD 370 Lab 0, Fall 2017");
         alert.showAndWait();
     }
 }

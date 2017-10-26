@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Word is a Word</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Word is a Word</h1>
+<table border='0' align="center">
+    <tr>
+        <td>Word to process:</td>
+        <td><input type='text' id="word" onkeypress="if (event.keyCode === 13) execute()"></td>
+        <td><input type='button' value='Process Word' onclick="execute()"></td>
+    </tr>
+
+</table>
+<div>
+    <table border='0' align="center">
+        <tr>
+            <th valign="top">
+                <table border='1' id = "defTable">
+                    <tr>
+                        <th>ID</th>
+                        <th>Definition</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+    <table border="0" align="center">
+        <tr>
+            <th valign="top">
+                <table border='1' id = "synTable">
+                    <tr>
+                        <th>Synonyms</th>
+                    </tr>
+                </table>
+            </th>
+            <th valign="top">
+                <table border='1' id = "antTable">
+                    <tr>
+                        <th>Antonyms</th>
+                    </tr>
+                </table>
+            </th>
+            <th valign="top">
+                <table border='1' id = "anaTable">
+                    <tr>
+                        <th>Anagrams</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+    <table border="0" align="center">
+        <tr>
+            <th valign="top">
+                <table border='1' id = "forTable">
+                    <tr>
+                        <th>Language</th>
+                        <th>Foreign Translations</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+</div>
+<table border='0' align="center">
+    <tr>
+        <td>Phrase to process:</td>
+        <td><input type='text' id="phrase" onkeypress="if (event.keyCode === 13) executeYoda()"></td>
+        <td><input type='button' value='Process Phrase' onclick="executeYoda()"></td>
+    </tr>
+
+</table>
+<div>
+    <table border='0' align="center">
+        <tr>
+            <th valign="top">
+                <table border='1' id = "yodTable">
+                    <tr>
+                        <th>Yoda Translation</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+</div>
+
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="wordProcessor.js"></script>
+</body>
+</html>

@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>Mortgage Calculator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<table border='0'>
+<h1>Mortgage Calculator</h1>
+<table border='0' align="center">
     <tr>
         <td>Principal:</td>
         <td><input type='text' id="principal"></td>
@@ -21,7 +23,8 @@
         <td></td>
         <td><input type='button' value='Compute Mortgage' onclick="calculateMortgage()"></td>
     </tr>
-    <table border='1' id = "outputTable">
+</table>
+    <table border='1' align="center" id = "outputTable">
         <tr>
             <th>Starting Principal</th>
             <th>Interest Amount</th>

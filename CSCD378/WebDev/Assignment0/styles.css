@@ -1,0 +1,78 @@
+body {
+    background: darkred;
+    max-width: 650px;
+    color: #f2f2f2;
+    margin: auto;
+    line-height: 1.6;
+    font-size: 18px;
+    padding: 0 10px
+}
+
+h1, h2, h3 {
+    text-align: center;
+    line-height: 1.2
+}
+
+input[type=text] {
+    background-color: #5e5e5e;
+    color: burlywood;
+    border: none;
+    border-bottom: 2px solid #ba0000;
+}
+
+input[type=button] {
+    background-color: #ba0000;
+    border: none;
+    color: #f2f2f2;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.prettyTable {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
+    width: 650px;
+    padding: 10px;
+    border-collapse: collapse;
+}
+
+.prettyTable th, td {
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+.prettyTable tr:nth-child(even) {
+    background-color: #5e5e5e
+}
+
+.prettyTable th {
+    background-color: #ba0000;
+    color: #f2f2f2;
+}
+
+
+/* unvisited link */
+a:link {
+    color:royalblue;
+}
+
+/* visited link */
+a:visited {
+    color: gray;
+}
+
+/* mouse over link */
+a:hover {
+    color: lightcoral;
+}
+
+/* selected link */
+a:active {
+    color: coral;
+}
