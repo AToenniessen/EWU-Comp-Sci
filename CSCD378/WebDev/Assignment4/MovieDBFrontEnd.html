@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Word is a Word</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Movie DataBase</h1>
+<table border='0' align="center">
+    <tr>
+        <th>
+            <form name="newEntry">
+                Movie Title<br>
+                <input type="text" name="MovieTitle"><br>
+                Release Date<br>
+                <input type="text" name="ReleaseDate"><br>
+                Studio<br>
+                <input type="text" name="Studio"><br>
+                Description<br>
+                <input type="text" name="Description"><br>
+                Price<br>
+                <input type="text" name="Price"><br>
+
+            </form>
+        </th>
+    </tr>
+    <tr>
+        <th><input type='button' value='Add Entry' onclick="addEntry()"></th>
+    </tr>
+
+
+</table>
+
+</div>
+
+<div>
+    <table border='0' align="center">
+        <tr>
+            <th valign="top">
+                <table border='1' id = "MovieTable">
+                    <tr>
+                        <th>Movie Title</th>
+                        <th>Release Date</th>
+                        <th>Studio</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </table>
+
+
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="Worker.js"></script>
+</body>
+</html>
