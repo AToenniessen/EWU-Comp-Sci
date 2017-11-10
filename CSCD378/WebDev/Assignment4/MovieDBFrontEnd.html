@@ -2,7 +2,7 @@
 
 <html lang="en">
 <head>
-    <title>Word is a Word</title>
+    <title>Single Table Maintenance</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -10,7 +10,7 @@
 <table border='0' align="center">
     <tr>
         <th>
-            <form name="newEntry">
+            <form name="newEntry" id="form">
                 Movie Title<br>
                 <input type="text" name="MovieTitle"><br>
                 Release Date<br>
@@ -32,24 +32,40 @@
 
 </table>
 
-</div>
-
 <div>
     <table border='0' align="center">
         <tr>
             <th valign="top">
                 <table border='1' id = "MovieTable">
                     <tr>
-                        <th>Movie Title</th>
-                        <th>Release Date</th>
-                        <th>Studio</th>
-                        <th>Description</th>
-                        <th>Price</th>
+                        <td>ID</td>
+                        <td>Movie Title</td>
+                        <td>Release Date</td>
+                        <td>Studio</td>
+                        <td>Description</td>
+                        <td>Price</td>
+                        <td>Options</td>
                     </tr>
                 </table>
             </th>
         </tr>
     </table>
+</div>
+<table id="tableRowTemplate" class="hide">
+    <!-- This is our clonable table line -->
+    <tr class="hide">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button class="table-edit">Edit</button>
+            <button class="table-remove">Delete</button>
+        </td>
+    </tr>
+</table>
 
 
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -47,6 +47,12 @@ form{
     display: inline-block;
     text-align: center;
 }
+#MovieTable tr > *:nth-child(1) {
+    display: none;
+}
+.hide{
+    display: none;
+}
 .container {
     display: flex;
 }
