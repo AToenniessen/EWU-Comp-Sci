@@ -1,0 +1,562 @@
+---
+title: API Reference
+
+language_tabs: # must be one of https://git.io/vQNgJ
+  - javascript
+
+toc_footers:
+  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+
+includes:
+  - errors
+
+search: true
+---
+
+# Introduction
+
+Welcome to my MPG API! You can use this API to access MPG API endpoints, which can get information on various cars, Makes, Models and their respective real world MPG/MPGe reported by users. Along with an estimated Cost per mile calculated from our database.
+
+Code examples are provided in the dark area to the right but are only availible in javaScript as of this release.
+
+# All Vehicle Tables EndPoint
+
+## Get All Vehicles
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let kittens = api.kittens.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "Fuel": "Plug-in Hybrid",
+    "Type": "Sedan",
+    "Make": "Chevrolet",
+    "Model": "Volt",
+    "Year": 2017,
+    "Total Miles": 1786,
+    "$/Mile-Total": 0.08,
+    "id": 1,
+    "Gas Miles": 409,
+    "Gallons used": 8.9,
+    "MPG": 46,
+    "$/Gallon": 2.75,
+    "$/Mile-gas": 0.06,
+    "id": 1,
+    "Electric Miles": 1376,
+    "MPGe": 108,
+    "kW-hr/100 Miles": 31
+    "$/kW-hr": 0.07,
+    "$/Mile-kW": 0.02
+  },
+  {
+    "id": 2,
+    "Fuel": "Diesel",
+    "Type": "Truck",
+    "Make": "Ford",
+    "Model": "F-250",
+    "Year": 2017,
+    "Total Miles": 624,
+    "$/Mile-Total": 0.24,
+    "id": 2,
+    "Gas Miles": 624,
+    "Gallons used": 48,
+    "MPG": 13,
+    "$/Gallon": 3.15,
+    "$/Mile-gas": 0.24,
+    "id": 2,
+    "Electric Miles": 0,
+    "MPGe": 0,
+    "kW-hr/100 Miles": 0
+    "$/kW-hr": 0,
+    "$/Mile-kW": 0
+  },
+  {
+    "id": 3,
+    "Fuel": "Electric",
+    "Type": "HatchBack",
+    "Make": "Chevrolet",
+    "Model": "Bolt",
+    "Year": 2017,
+    "Total Miles": 238,
+    "$/Mile-Total": 0.018,
+    "id": 3,
+    "Gas Miles": 0,
+    "Gallons used": 0,
+    "MPG": 0,
+    "$/Gallon": 0,
+    "$/Mile-gas": 0,
+    "id": 3,
+    "Electric Miles": 238,
+    "MPGe": 134,
+    "kW-hr/100 Miles": 25.2
+    "$/kW-hr": 0.07,
+    "$/Mile-kW": 0.018
+  }
+]
+```
+
+This endpoint retrieves all Vehicles and data of specified Parameters (if any parameters specified).
+
+### HTTP Request
+
+`GET http://example.com/api/kittens`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+Fuel | Any | If set to specific value (i.e., Plug-in Hybrid), the result will return all vehicles of that fuel.
+Type | Any | If set to specific value (i.e., Sedan), the result will return all vehicles of that type.
+Make | Any | If set to specific value (i.e., Chevrolet), the result will return all vehicles of that specific make.
+Model | Any | If set to specific value (i.e., Volt), the result will return all vehicles of that specific model.
+Year | Any | If set to specific value (i.e., 2017), the result will return all vehicles of that specific year.
+
+## Get a Specific Vehicle
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.get(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+    "Fuel": "Diesel",
+    "Type": "Truck",
+    "Make": "Ford",
+    "Model": "F-250",
+    "Year": 2017,
+    "Total Miles": 624,
+    "$/Mile-Total": 0.24,
+    "id": 2,
+    "Gas Miles": 624,
+    "Gallons used": 48,
+    "MPG": 13,
+    "$/Gallon": 3.15,
+    "$/Mile-gas": 0.24,
+    "id": 2,
+    "Electric Miles": 0,
+    "MPGe": 0,
+    "kW-hr/100 Miles": 0
+    "$/kW-hr": 0,
+    "$/Mile-kW": 0
+}
+```
+
+This endpoint retrieves a specific Vehicles data.
+
+<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+
+### HTTP Request
+
+`GET http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the Vehicle data to retrieve
+
+## Delete a Specific Vehicle
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.delete(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "deleted" : ":("
+}
+```
+
+This endpoint deletes a specific Vehicles data.
+
+### HTTP Request
+
+`DELETE http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the Vehicle data to delete
+
+# Vehicle Table EndPoint
+
+## Get All Vehicle entries
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let kittens = api.kittens.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "Fuel": "Plug-in Hybrid",
+    "Type": "Sedan",
+    "Make": "Chevrolet",
+    "Model": "Volt",
+    "Year": 2017,
+    "Total Miles": 1786,
+    "$/Mile-Total": 0.08
+  },
+  {
+    "id": 2,
+    "Fuel": "Diesel",
+    "Type": "Truck",
+    "Make": "Ford",
+    "Model": "F-250",
+    "Year": 2017,
+    "Total Miles": 624,
+    "$/Mile-Total": 0.24
+  },
+  {
+    "id": 3,
+    "Fuel": "Electric",
+    "Type": "HatchBack",
+    "Make": "Chevrolet",
+    "Model": "Bolt",
+    "Year": 2017,
+    "Total Miles": 238,
+    "$/Mile-Total": 0.018
+  }
+]
+```
+
+This endpoint service retrieves all Vehicle table entries based on specified Parameters (if any parameters specified).
+
+### HTTP Request
+
+`GET http://example.com/api/kittens`
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- | ------- | -----------
+Fuel | Any | If set to specific value (i.e., Plug-in Hybrid), the result will return all vehicle entries of that fuel.
+Type | Any | If set to specific value (i.e., Sedan), the result will return all vehicle entries of that type.
+Make | Any | If set to specific value (i.e., Chevrolet), the result will return all vehicle entries of that specific make.
+Model | Any | If set to specific value (i.e., Volt), the result will return all vehicle entries of that specific model.
+Year | Any | If set to specific value (i.e., 2017), the result will return all vehicle entries of that specific year.
+
+## Get a Specific Vehicle entry
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.get(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+    "Fuel": "Diesel",
+    "Type": "Truck",
+    "Make": "Ford",
+    "Model": "F-250",
+    "Year": 2017,
+    "Total Miles": 624,
+    "$/Mile-Total": 0.24,
+}
+```
+
+This endpoint service retrieves a specific Vehicle table entry.
+
+<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+
+### HTTP Request
+
+`GET http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the vehicle table entry to retrieve
+
+## Delete a Specific Vehicle entry
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.delete(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "deleted" : ":("
+}
+```
+
+This endpoint deletes a specific vehicle MPG table entry.
+
+### HTTP Request
+
+`DELETE http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the vehicle table entry to delete
+
+# MPG Table EndPoint
+
+
+## Get All Vehicle MPG entries
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let kittens = api.kittens.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "Gas Miles": 409,
+    "Gallons used": 8.9,
+    "MPG": 46,
+    "$/Gallon": 2.75,
+    "$/Mile-gas": 0.06
+  },
+  {
+    "id": 2,
+    "Gas Miles": 624,
+    "Gallons used": 48,
+    "MPG": 13,
+    "$/Gallon": 3.15,
+    "$/Mile-gas": 0.24
+  },
+  {
+    "id": 3,
+    "Gas Miles": 0,
+    "Gallons used": 0,
+    "MPG": 0,
+    "$/Gallon": 0,
+    "$/Mile-gas": 0
+  }
+]
+```
+
+This endpoint retrieves all vehicle MPG table entries.
+
+### HTTP Request
+
+`GET http://example.com/api/kittens`
+
+## Get a Specific Vehicle MPG entry
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.get(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "id": 2,
+    "Gas Miles": 624,
+    "Gallons used": 48,
+    "MPG": 13,
+    "$/Gallon": 3.15,
+    "$/Mile-gas": 0.24
+}
+```
+
+This endpoint retrieves a specific vehicle MPG table entry.
+
+<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+
+### HTTP Request
+
+`GET http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the vehicle MPG table entry to retrieve
+
+## Delete a Specific Vehicle MPG entry
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.delete(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "deleted" : ":("
+}
+```
+
+This endpoint deletes a specific vehicle MPG table entry.
+
+### HTTP Request
+
+`DELETE http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the vehicle MPG table entry to delete
+
+# MPGe Table EndPoint
+
+## Get All Vehicle MPGe entries
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let kittens = api.kittens.get();
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "Electric Miles": 1376,
+    "MPGe": 108,
+    "kW-hr/100 Miles": 31
+    "$/kW-hr": 0.07,
+    "$/Mile-kW": 0.02
+  },
+  {
+    "id": 2,
+    "Electric Miles": 0,
+    "MPGe": 0,
+    "kW-hr/100 Miles": 0
+    "$/kW-hr": 0,
+    "$/Mile-kW": 0
+  },
+  {
+    "id": 3,
+    "Electric Miles": 238,
+    "MPGe": 134,
+    "kW-hr/100 Miles": 25.2
+    "$/kW-hr": 0.07,
+    "$/Mile-kW": 0.018
+  }
+]
+```
+
+This endpoint retrieves all vehicle MPGe entries.
+
+### HTTP Request
+
+`GET http://example.com/api/kittens`
+
+## Get a Specific Vehicle MPGe entry
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.get(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "id": 2,
+    "Electric Miles": 0,
+    "MPGe": 0,
+    "kW-hr/100 Miles": 0
+    "$/kW-hr": 0,
+    "$/Mile-kW": 0
+}
+```
+
+This endpoint retrieves a specific vehicle MPGe table entry.
+
+<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+
+### HTTP Request
+
+`GET http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the Vehicle MPGe table entry to retrieve
+
+## Delete a Specific Vehicle MPGe entry
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.delete(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "deleted" : ":("
+}
+```
+
+This endpoint deletes a specific MPGe table entry.
+
+### HTTP Request
+
+`DELETE http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the vehicle MPGe table entry to delete

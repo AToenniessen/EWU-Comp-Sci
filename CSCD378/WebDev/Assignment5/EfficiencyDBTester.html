@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Multiple Table Maintenance</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div style="width: 100%;">
+<h1>Vehicle Efficiency DataBase</h1>
+<div align="center">
+<table border='0' align="center">
+    <tr>
+        <th>
+            <form name="newVehicleEntry" id="vehicleForm">
+                Fuel Type<br>
+                <input type="text" name="Fuel"><br>
+                Vehicle Type<br>
+                <input type="text" name="Type"><br>
+                Make<br>
+                <input type="text" name="Make"><br>
+                Model<br>
+                <input type="text" name="Model"><br>
+                Year<br>
+                <input type="text" name="Year"><br>
+            </form>
+        </th>
+        <th>
+            <form name="newMPGEntry" id="mpgForm">
+                Gas Miles <br>
+                <input type="text" name="GasMiles"><br>
+                Gallons Used<br>
+                <input type="text" name="GallonsUsed"><br>
+                $/Gallon<br>
+                <input type="text" name="$/Gallon"><br>
+            </form>
+        </th>
+        <th>
+            <form name="newMPGeEntry" id="mpgeForm">
+                Electric Miles<br>
+                <input type="text" name="ElectricMiles"><br>
+                MPGe<br>
+                <input type="text" name="MPGe"><br>
+                $/kW-hr<br>
+                <input type="text" name="$/kW-hr"><br>
+            </form>
+        </th>
+    </tr>
+    <tr>
+        <th><input style="display: none" id = "VehicleButton" type='button' value='Add Vehicle' onclick="addVehicleEntry()"></th>
+        <th><input style="display: none" id = "MPGButton" type='button' value='Add MPG' onclick="addMPGEntry()"></th>
+        <th><input style="display: none" id = "MPGeButton" type='button' value='Add MPGe' onclick="addMPGeEntry()"></th>
+    </tr>
+    <tr>
+        <th></th>
+        <th><input type='button' value='Add' onclick="addAllEntry()"></th>
+    </tr>
+</table>
+</div>
+
+<div style="align-self: auto; width: 100px;">
+    <table class="prettyTable" border='0' align="center">
+        <tr>
+            <th valign="bottom">
+                <table class = prettyTable border='1' id = "VehicleTable">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Fuel Type</td>
+                        <td>Vehicle Type</td>
+                        <td>Make</td>
+                        <td>Model</td>
+                        <td>Year</td>
+                        <td>Options</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </th>
+            <th valign="bottom">
+                <table class = prettyTable border='1' id = "MPGTable">
+                    <tr>
+                        <td>ID</td>
+                        <td>Gas Miles</td>
+                        <td>Gallons used</td>
+                        <td>MPG</td>
+                        <td>$/Gallon</td>
+                        <td>Gas $/Mile</td>
+                        <td>Options</td>
+                    </tr>
+                </table>
+            </th>
+            <th valign="Bottom">
+            <table class = prettyTable border='1' id = "MPGeTable">
+                <tr>
+                    <td>ID</td>
+                    <td>Electric Miles</td>
+                    <td>MPGe</td>
+                    <td>kW-hr/100 Miles</td>
+                    <td>$/kW-hr</td>
+                    <td>kW $/Mile</td>
+                    <td>Options</td>
+                </tr>
+            </table>
+        </th>
+        </tr>
+    </table>
+</div>
+</div>
+<table id="vehicleRowTemplate" class="hide">
+    <!-- This is our clonable table line -->
+    <tr class="hide">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button class="vehicle-update">Update</button>
+            <button class="vehicle-remove">Delete</button>
+        </td>
+    </tr>
+</table>
+<table id="mpgRowTemplate" class="hide">
+    <!-- This is our clonable table line -->
+    <tr class="hide">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button class="mpg-update">Update</button>
+            <button class="mpg-remove">Delete</button>
+        </td>
+    </tr>
+</table>
+<table id="mpgeRowTemplate" class="hide">
+    <!-- This is our clonable table line -->
+    <tr class="hide">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button class="mpge-update">Update</button>
+            <button class="mpge-remove">Delete</button>
+        </td>
+    </tr>
+</table>
+
+
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="Worker.js"></script>
+</body>
+</html>
