@@ -6,7 +6,7 @@ import javafx.scene.canvas.Canvas;
 public abstract class Element {
     final int imageWidth = 26;
     int x, y;
-    private Direction direction;
+    Direction direction;
     Maze maze;
     private boolean player;
     Element(Maze m, int r, int c, boolean p){
@@ -17,8 +17,12 @@ public abstract class Element {
         if(!p)
             direction = Direction.values()[(int)(Math.random() * 4)];
         else
-            direction = Direction.left;
+            direction = Direction.stop;
 
+    }
+    public void setDirection(Direction d){
+        if(this.isPlayer())
+            direction = d;
     }
     public abstract void draw(Canvas c);
     public boolean isPlayer(){
@@ -49,7 +53,7 @@ public abstract class Element {
             x = X;
             y = Y;
         }
-        else
+        else if(!player)
             direction =  Direction.values()[(int)(Math.random() * 4)];
     }
 }

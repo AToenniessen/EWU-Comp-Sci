@@ -1,9 +1,11 @@
 package AshMan.GameElements;
 
 import AshMan.Maze;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Ashman extends Element {
     private Image closed = new Image("Images/AshMan-Closed.png");
@@ -13,7 +15,6 @@ public class Ashman extends Element {
     public Ashman(Maze m, int r, int c) {
         super(m, r, c, true);
     }
-
     public void draw(Canvas c) {
         move();
         if(maze.ghostCollision(x / imageWidth, y / imageWidth)){
@@ -21,8 +22,23 @@ public class Ashman extends Element {
         }
         frame++;
         GraphicsContext gc = c.getGraphicsContext2D();
-        if ((frame/13) % 2 == 0)
-            gc.drawImage(open, x, y);
+        if ((frame/13) % 2 == 0) {
+            ImageView temp = new ImageView(open);
+            switch(direction) {
+                case down:
+                    temp.setRotate(-90);
+                    break;
+                case up:
+                    temp.setRotate(90);
+                    break;
+                case left:
+                    temp.setRotate(180);
+                    break;
+                case right:
+                    break;
+            }
+                gc.drawImage(temp.snapshot(new SnapshotParameters(), null), x, y);
+        }
         else
             gc.drawImage(closed, x, y);
     }

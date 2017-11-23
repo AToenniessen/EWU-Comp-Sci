@@ -1,5 +1,6 @@
 package AshMan;
 
+import AshMan.GameElements.Direction;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -35,6 +36,25 @@ public class Main extends Application {
         root.setBottom(toolBar);
 
         Scene scene = new Scene(root);
+
+        scene.setOnKeyPressed(event ->{
+            Direction direction = Direction.stop;
+            switch (event.getCode()){
+                case UP:
+                    direction = Direction.down;
+                    break;
+                case DOWN:
+                    direction = Direction.up;
+                    break;
+                case LEFT:
+                    direction = Direction.left;
+                    break;
+                case RIGHT:
+                    direction = Direction.right;
+                    break;
+            }
+            game.mElements.get(0).setDirection(direction);
+        });
 
         primaryStage.setTitle("TicTacToe Grid");
         primaryStage.setScene(scene);

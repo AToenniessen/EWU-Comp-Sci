@@ -54,7 +54,7 @@ public class Maze {
             {2,1,2,2,2,1,2,2,2,1,2,2,2,1,2,2,2,1,2,2}}};
     private int [][] mMaze;
     private Element [][] mGame = new Element[20][20];
-    private ArrayList<Element> mElements = new ArrayList<>();
+    ArrayList<Element> mElements = new ArrayList<>();
     private Wall mWall = new Wall();
     private Cake mCake = new Cake();
     Canvas mBoardCanvas;
