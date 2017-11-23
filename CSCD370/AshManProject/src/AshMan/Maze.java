@@ -125,7 +125,7 @@ public class Maze {
         }
         draw(oldX, oldY);
     }
-    public boolean collision(int x, int y) {
+    public boolean collision(int x, int y) {//implement Collision based on 4 corners of object image
         return x <= 0 || x >= 19*imageWidth || y <= 0 || y >= 19*imageWidth || mMaze[x/imageWidth][y/imageWidth] == wall;
     }
     public boolean ghostCollision(int x, int y){
