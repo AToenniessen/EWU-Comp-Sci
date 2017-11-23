@@ -10,10 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -24,10 +21,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Maze game = new Maze(new Canvas(520,520), 0);
+        Maze game = new Maze(new Canvas(520,520), new Canvas(520, 520), 0);
 
         BorderPane root = new BorderPane();
-        root.setCenter(game.mCanvas);
+        StackPane pane = new StackPane(game.mBoardCanvas, game.mGameCanvas);
+
+        root.setCenter(pane);
 
         root.setTop(buildMenus());
 

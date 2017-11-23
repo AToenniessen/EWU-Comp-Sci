@@ -11,15 +11,17 @@ public class Ashman extends Element {
     private long frame = 0;
 
     public Ashman(Maze m, int r, int c) {
-        super(m, r, c);
+        super(m, r, c, true);
     }
 
     public void draw(Canvas c) {
         move();
-        maze.ghostCollision(x / imageWidth, y / imageWidth);
+        if(maze.ghostCollision(x / imageWidth, y / imageWidth)){
+            //end game
+        }
         frame++;
         GraphicsContext gc = c.getGraphicsContext2D();
-        if (frame % 15 == 0)
+        if ((frame/13) % 2 == 0)
             gc.drawImage(open, x, y);
         else
             gc.drawImage(closed, x, y);

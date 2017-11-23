@@ -8,14 +8,22 @@ public abstract class Element {
     int x, y;
     private Direction direction;
     Maze maze;
-    Element(Maze m, int r, int c){
+    private boolean player;
+    Element(Maze m, int r, int c, boolean p){
         maze = m;
         x = r * imageWidth;
         y = c * imageWidth;
-        direction = Direction.values()[(int)(Math.random() * 4)];
+        player = p;
+        if(!p)
+            direction = Direction.values()[(int)(Math.random() * 4)];
+        else
+            direction = Direction.left;
 
     }
     public abstract void draw(Canvas c);
+    public boolean isPlayer(){
+        return player;
+    }
 
     void move(){
         int X = x;
@@ -33,11 +41,15 @@ public abstract class Element {
             case right:
                 X++;
                 break;
+            case stop:
+                break;
         }
         if(!maze.collision(X, Y)){
-            maze.updateMaze(x/imageWidth, y/imageWidth, X/imageWidth, Y/imageWidth);
+            maze.updateMaze(player, x/imageWidth, y/imageWidth, X/imageWidth, Y/imageWidth);
             x = X;
             y = Y;
         }
+        else
+            direction =  Direction.values()[(int)(Math.random() * 4)];
     }
 }
