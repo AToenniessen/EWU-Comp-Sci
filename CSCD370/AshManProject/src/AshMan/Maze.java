@@ -50,7 +50,7 @@ class Maze {
             int r = (int)(Math.random() * 20);
             int c = (int)(Math.random() * 20);
             if(mGame[r][c] == 2){
-                //create ghost object
+                //create ghost objects and ashman Object
             }
         }
     }
