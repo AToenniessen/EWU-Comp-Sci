@@ -17,9 +17,6 @@ public class Ashman extends Element {
     }
     public void draw(Canvas c) {
         move();
-        if(maze.ghostCollision(x / imageWidth, y / imageWidth)){
-            //end game
-        }
         frame++;
         GraphicsContext gc = c.getGraphicsContext2D();
         if ((frame/13) % 2 == 0) {

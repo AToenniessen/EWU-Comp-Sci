@@ -20,6 +20,15 @@ public abstract class Element {
             direction = Direction.stop;
 
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public void setDirection(Direction d){
         if(this.isPlayer())
             direction = d;
@@ -49,7 +58,7 @@ public abstract class Element {
                 break;
         }
         if(!maze.collision(X, Y)){
-            maze.updateMaze(player, x/imageWidth, y/imageWidth, X/imageWidth, Y/imageWidth);
+            maze.updateMaze(player, x, y, X, Y);
             x = X;
             y = Y;
         }

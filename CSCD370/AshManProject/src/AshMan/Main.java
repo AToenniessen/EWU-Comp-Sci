@@ -17,12 +17,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private Label mStatus;
+    private Maze game;
 
 
 
     @Override
     public void start(Stage primaryStage) {
-        Maze game = new Maze(new Canvas(520,520), new Canvas(520, 520), 0);
+        game = new Maze(new Canvas(520,520), new Canvas(520, 520), 0);
 
         BorderPane root = new BorderPane();
         StackPane pane = new StackPane(game.mBoardCanvas, game.mGameCanvas);
@@ -69,6 +70,13 @@ public class Main extends Application {
         mStatus.setText(s);
     }
 
+    private void winAlert(){        //Finish win/loose prompts
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Congratulation!");
+        alert.setHeaderText("You Beat The Level");
+        alert.showAndWait();
+    }
+
     private MenuBar buildMenus() {
         MenuBar menuBar = new MenuBar();
 
@@ -78,12 +86,22 @@ public class Main extends Application {
         quitMenuItem.setOnAction(actionEvent -> Platform.exit());
         fileMenu.getItems().add(quitMenuItem);
 
+        Menu gameMenu = new Menu("_Game");
+        MenuItem newMenuItem = new MenuItem("_New");
+        newMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+        newMenuItem.setOnAction(actionEvent -> game = new Maze(new Canvas(520,520), new Canvas(520, 520), 0));
+        MenuItem goMenuItem = new MenuItem("_Go");
+        goMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.G, KeyCombination.CONTROL_DOWN));
+        goMenuItem.setOnAction(actionEvent -> game.go());
+
+        gameMenu.getItems().addAll(newMenuItem, goMenuItem);
+
         Menu helpMenu = new Menu("_Help");
         MenuItem aboutMenuItem = new MenuItem("_About");
         aboutMenuItem.setOnAction(actionEvent -> onAbout());
         helpMenu.getItems().add(aboutMenuItem);
 
-        menuBar.getMenus().addAll(fileMenu, helpMenu);
+        menuBar.getMenus().addAll(fileMenu, gameMenu, helpMenu);
         return menuBar;
     }
 
