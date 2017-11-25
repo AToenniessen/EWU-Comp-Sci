@@ -89,12 +89,26 @@ public class Main extends Application {
         Menu gameMenu = new Menu("_Game");
         MenuItem newMenuItem = new MenuItem("_New");
         newMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
-        newMenuItem.setOnAction(actionEvent -> game = new Maze(new Canvas(520,520), new Canvas(520, 520), 0));
+        newMenuItem.setOnAction(actionEvent -> {
+            game.reset();
+        });
+        MenuItem pauseMenuItem = new MenuItem("_Pause");
+        pauseMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN));
+        pauseMenuItem.setDisable(true);
         MenuItem goMenuItem = new MenuItem("_Go");
         goMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.G, KeyCombination.CONTROL_DOWN));
-        goMenuItem.setOnAction(actionEvent -> game.go());
+        pauseMenuItem.setOnAction(actionEvent -> {
+            game.pause();
+            pauseMenuItem.setDisable(true);
+            goMenuItem.setDisable(false);
+        });
+        goMenuItem.setOnAction(actionEvent -> {
+            game.go();
+            goMenuItem.setDisable(true);
+            pauseMenuItem.setDisable(false);
+        });
 
-        gameMenu.getItems().addAll(newMenuItem, goMenuItem);
+        gameMenu.getItems().addAll(newMenuItem, goMenuItem, pauseMenuItem);
 
         Menu helpMenu = new Menu("_Help");
         MenuItem aboutMenuItem = new MenuItem("_About");

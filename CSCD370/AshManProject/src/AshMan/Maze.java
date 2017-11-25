@@ -56,8 +56,8 @@ public class Maze {
             {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 2},
             {2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2}}};
     private int[][] mMaze;
-    private Element[][] mGame = new Element[20][20];
-    ArrayList<Element> mElements = new ArrayList<>();
+    private Element[][] mGame;
+    ArrayList<Element> mElements;
     private Wall mWall = new Wall();
     private Cake mCake = new Cake();
     Canvas mBoardCanvas;
@@ -66,8 +66,10 @@ public class Maze {
     private int cakeCount = 0;
 
     Maze(Canvas b, Canvas g, int curMaze) {
-        mMaze = mMazes[curMaze];
-        countCakes():
+        mMaze = deepClone(mMazes[curMaze]);
+        mGame = new Element[20][20];
+        mElements = new ArrayList<>();
+        countCakes();
         mBoardCanvas = b;
         mGameCanvas = g;
         addEntities(2, true);
@@ -82,11 +84,32 @@ public class Maze {
             }
         }
     }
+    void reset(){
+        pause();
+        cakeCount = 0;
+        score = 0;
+        dead.set(false);
+        mGame = new Element[20][20];
+        mMaze = deepClone(mMazes[0]);
+        mElements.clear();
+        countCakes();
+        mBoardCanvas.getGraphicsContext2D().clearRect(0,0,mBoardCanvas.getWidth(), mBoardCanvas.getHeight());
+        mGameCanvas.getGraphicsContext2D().clearRect(0,0,mGameCanvas.getWidth(), mGameCanvas.getHeight());
+        addEntities(2, true);
+        initalizeGame();
+    }
+    private int[][] deepClone(int[][] array){
+        int[][] clone = new int[array.length][array.length];
+        for(int r = 0; r < array.length; r++){
+            System.arraycopy(array[r], 0, clone[r], 0, array.length);
+        }
+        return clone;
+    }
     void go() {
         mTimer.start();
     }
 
-    public void pause() {
+    void pause() {
         mTimer.stop();
     }
 
@@ -148,19 +171,26 @@ public class Maze {
         draw(oldX / imageWidth, oldY / imageWidth);
 
     }
-
     public boolean collision(int x, int y) {
         return x <= 0 - 1 || x >= 19 * imageWidth + 1 || y <= 0 - 1 || y >= 19 * imageWidth + 1 ||
                 mMaze[x / imageWidth][y / imageWidth] == wall || mMaze[(x + imageWidth - 1) / imageWidth][y / imageWidth] == wall ||
                 mMaze[x / imageWidth][(y + imageWidth - 1) / imageWidth] == wall || mMaze[(x + imageWidth - 1) / imageWidth][(y + imageWidth - 1) / imageWidth] == wall;
     }
 
-    private boolean ghostCollision() {
-        Element player = mElements.get(0);
+    private boolean ghostCollision() { //fix collision detection for ghosts. works on one ghost
+        Element ashman = mElements.get(0);
         boolean collision = false;
         for(int i = 1; i < mElements.size(); i++){
             Element ghost = mElements.get(i);
-            collision = player.getX()/imageWidth == ghost.getX()/imageWidth && player.getY()/imageWidth == ghost.getY()/imageWidth;
+            int ax = ashman.getX()/imageWidth;
+            int ax1 = (ashman.getX() + 1)/imageWidth;
+            int ay = ashman.getY()/imageWidth;
+            int ay1 = (ashman.getY() + 1)/imageWidth;
+            int gx = ghost.getX()/imageWidth;
+            int gx1 = (ghost.getX() + 1)/imageWidth;
+            int gy = ghost.getY()/imageWidth;
+            int gy1 = (ghost.getY() + 1)/imageWidth;
+            collision = (ax == gx || ax == gx1 || ax1 == gx || ax1 == gx1)&&(ay == gy || ay == gy1 || ay1 == gy || ay1 == gy1);
         }
         return collision;
     }

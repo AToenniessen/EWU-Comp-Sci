@@ -33,6 +33,8 @@ public class Ashman extends Element {
                     break;
                 case right:
                     break;
+                case stop:
+                    temp = new ImageView(closed);
             }
                 gc.drawImage(temp.snapshot(new SnapshotParameters(), null), x, y);
         }

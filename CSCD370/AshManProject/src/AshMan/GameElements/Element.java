@@ -64,5 +64,7 @@ public abstract class Element {
         }
         else if(!player)
             direction =  Direction.values()[(int)(Math.random() * 4)];
+        else
+            direction = Direction.stop;
     }
 }
