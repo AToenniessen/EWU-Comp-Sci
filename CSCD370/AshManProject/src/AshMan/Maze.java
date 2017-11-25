@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ public class Maze {
     private final int imageWidth = 26;
     private long mPreviousTime = 0;
     private int mWorkStep = 0;
-    private SimpleBooleanProperty dead = new SimpleBooleanProperty();
     private AnimationTimer mTimer = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -26,8 +26,11 @@ public class Maze {
             if (elapsed > 1) { //TIMER_MSEC
                 // do some of the work and quit when done
                 if (doSomeWork()) {
-                    dead.set(score != cakeCount);
                     mTimer.stop();
+                    if(score != cakeCount)
+                        deadAlert();
+                    else
+                        winAlert();
                     mWorkStep = 0;
                 }
                 mPreviousTime = now;
@@ -74,7 +77,6 @@ public class Maze {
         mGameCanvas = g;
         addEntities(2, true);
         initalizeGame();
-        //mTimer.start();
     }
     private void countCakes(){
         for (int[] aMMaze : mMaze) {
@@ -84,11 +86,22 @@ public class Maze {
             }
         }
     }
+    private void deadAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("You Lose!");
+        alert.setHeaderText("Looks like you died");
+        alert.show();
+    }
+    private void winAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("You Win!");
+        alert.setHeaderText("You ate all the cakes!");
+        alert.show();
+    }
     void reset(){
         pause();
         cakeCount = 0;
         score = 0;
-        dead.set(false);
         mGame = new Element[20][20];
         mMaze = deepClone(mMazes[0]);
         mElements.clear();

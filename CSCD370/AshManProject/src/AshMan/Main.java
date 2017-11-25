@@ -70,13 +70,6 @@ public class Main extends Application {
         mStatus.setText(s);
     }
 
-    private void winAlert(){        //Finish win/loose prompts
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Congratulation!");
-        alert.setHeaderText("You Beat The Level");
-        alert.showAndWait();
-    }
-
     private MenuBar buildMenus() {
         MenuBar menuBar = new MenuBar();
 
