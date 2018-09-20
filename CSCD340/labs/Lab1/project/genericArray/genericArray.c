@@ -23,4 +23,14 @@ void cleanArray(GenericArray * array, int length, void (*cleanType)(void *))
 
 }
 
+GenericArray * fillArray(FILE * in, int length, void * (*buildType)(FILE * input)){
+
+}
+
+void sortArray(GenericArray * array, int length, int (*compar)(const void * v1, const void * v2)){
+    
+}
+
+
+
 

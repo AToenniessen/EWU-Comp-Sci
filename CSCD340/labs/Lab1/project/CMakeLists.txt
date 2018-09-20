@@ -3,4 +3,4 @@ project(project C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(project cscd340Lab1.c utils/fileUtils.c)
+add_executable(project cscd340Lab1.c utils/fileUtils.c stock/stock.c)
