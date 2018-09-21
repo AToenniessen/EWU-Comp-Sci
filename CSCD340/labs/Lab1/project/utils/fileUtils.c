@@ -2,27 +2,26 @@
 #include <stdio.h>
 
 FILE * openInputFile_Prompt(){
-    char fileName[20];
+    char fileName[32] = "";
     printf("Enter File Name: ");
-    fgets(fileName, 20, stdin);
+    scanf("%s", fileName);
     FILE *fp = fopen(fileName, "r");
-    if(fp == NULL){
-        printf("File does not exist.");
-        return 0;
+    if(fp == NULL) {
+        while (fp == NULL) {
+            printf("\nFile does not exist.\n\n");
+            printf("Enter File Name: ");
+            scanf("%s", fileName);
+            fp = fopen(fileName, "r");
+        }
     }
-    else
-        return fp;
+    return fp;
 }//end openInputFile_Prompt
 
 int countRecords(FILE * fin, int linesPer){
     int lines = 0;
-    int record = 0;
-    int ch = 0;
-    while(!feof(fin)){
-        ch = fgetc(fin);
-        if(ch == '\n')
+    for (char ch = getc(fin); ch != EOF; ch = getc(fin))
+        if (ch == '\n')
             lines++;
-        if(lines / linesPer == 0)
-            record++;
-    }
+    rewind(fin);
+    return lines/linesPer;
 }//end countRecords

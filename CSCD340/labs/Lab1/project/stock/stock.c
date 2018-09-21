@@ -1,15 +1,34 @@
 #include "stock.h"
 
-void * buildStock(FILE * fin){      //ask stu about this tomorrow
-    struct stock *n = (struct stock*)malloc(sizeof(struct stock));
-    fscanf(fin, "%p", &n -> symbol);
-    fscanf(fin, "%p", &n -> name);
-    fscanf(fin, "%lf", &n -> price);
+
+void * buildStock(FILE * fin){
+    struct stock *n = (struct stock*)calloc(1, sizeof(struct stock));
+
+    char tempSymbol[32] = "";
+    fgets(tempSymbol, 32, fin);
+    strtok(tempSymbol, "\n");
+    n->symbol = (char *)calloc(1, strlen(tempSymbol) + 1);
+    memcpy(n->symbol, tempSymbol, strlen(tempSymbol) + 1);
+
+    char tempName[32] = "";
+    fgets(tempName, 32, fin);
+    strtok(tempName, "\n");
+    n->name = (char*)calloc(1, strlen(tempName) + 1);
+    memcpy(n->name, tempName, strlen(tempName) + 1);
+
+    char tempPrice[32] = "";
+    fgets(tempPrice, 32, fin);
+    n->price = strtod(tempPrice, NULL);
+
+    return n;
 }
 
 void printStock(void * ptr){
     struct stock * temp = (struct stock*) ptr;
-    printf(temp->name, " - ", temp->symbol, " - ", temp->price);
+    printf("%s - ", temp->name);
+    printf("%s - ", temp->symbol);
+    printf("%.2lf", temp->price);
+    printf("\n\n");
 }
 
 void cleanStock(void * ptr){
