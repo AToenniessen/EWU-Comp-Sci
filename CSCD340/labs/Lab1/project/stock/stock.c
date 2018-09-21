@@ -7,12 +7,14 @@ void * buildStock(FILE * fin){
     char tempSymbol[32] = "";
     fgets(tempSymbol, 32, fin);
     strtok(tempSymbol, "\n");
+    strtok(tempSymbol, "\r");
     n->symbol = (char *)calloc(1, strlen(tempSymbol) + 1);
     memcpy(n->symbol, tempSymbol, strlen(tempSymbol) + 1);
 
     char tempName[32] = "";
     fgets(tempName, 32, fin);
     strtok(tempName, "\n");
+    strtok(tempName, "\r");
     n->name = (char*)calloc(1, strlen(tempName) + 1);
     memcpy(n->name, tempName, strlen(tempName) + 1);
 
