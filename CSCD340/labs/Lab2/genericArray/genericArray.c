@@ -31,7 +31,7 @@ void cleanArray(GenericArray * array, int length, void (*cleanType)(void *))
 	int x;
 	for(x = 0; x < length; x++)
 		cleanType(array[x].data);
-	
+
 	free(array);
 	array = NULL;
 
@@ -73,20 +73,20 @@ void sortArray(GenericArray * array, int length, int (*compar)(const void * v1, 
  */
 GenericArray * addItem(GenericArray * array, int *length, void * (*buildType_prompt)())
 {
-	GenericArray *newArray = (GenericArray*) calloc((size_t) (*length + 1), sizeof(GenericArray));
+	int total = *length;
 
-	for(int n = 0; n < *length; n++){
-		memcpy(&newArray[n].data, &array[n].data, sizeof(array[n].data));
+	GenericArray *newArray = (GenericArray*) calloc((total + 1), sizeof(GenericArray));
+
+	for(int n = 0; n < total; n++){
+		newArray[n].data = array[n].data;
 	}
 
-	GenericArray * data = (GenericArray*) calloc(1, sizeof(GenericArray));
-	data->data = buildType_prompt();
-	memcpy(&newArray[*length + 1].data, &data->data, sizeof(data));
+	newArray[total].data = buildType_prompt();
 
 	free(array);
 	array = NULL;
 
-	*length = *length + 1;
+	*length = total + 1;
 
 	return newArray;
 
@@ -120,6 +120,7 @@ GenericArray * removeItemByValue(GenericArray * array, int *length, void * (*bui
 			break;
 		}
 	}
+	cleanType(data);
 	if(indexFound > -1)
 		return removeItemByIndexPassedIn(array, length, cleanType, indexFound);
 	else {
@@ -155,15 +156,19 @@ GenericArray * removeItemByIndexPassedIn(GenericArray * array, int *length, void
 		exit(-99);
 	}
 
-	cleanType(&array[index]);
-	GenericArray *newArray = (GenericArray*) calloc((size_t) (*length - 1), sizeof(GenericArray));
+	int total = *length;
 
-	for(int n = 0; n < *length; n++){
+	cleanType(array[index].data);
+	//free(array[index].data);
+
+	GenericArray *newArray = (GenericArray*) calloc((total - 1), sizeof(GenericArray));
+
+	for(int n = 0; n < total - 1; n++){
 		if(n >= index){
-			memcpy(&newArray[n].data, &array[n + 1].data, sizeof(array[n + 1].data));
+			newArray[n].data = array[n + 1].data;
 		}
 		else{
-			memcpy(&newArray[n].data, &array[n].data, sizeof(array[n].data));
+			newArray[n].data = array[n].data;
 		}
 	}
 

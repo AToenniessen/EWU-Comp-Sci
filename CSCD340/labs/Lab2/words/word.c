@@ -46,13 +46,14 @@ void * buildTypeWord(FILE * fin)
     char tempWord[100] = "";
     fgets(tempWord, 100, fin);
 
-    strtok(tempWord, "\n");
+
     strtok(tempWord, "\r");
+    strtok(tempWord, "\n");
 
     int n = strlen(tempWord);
 
-    word->ltrs = (char*) calloc(1, (size_t) n + 1);
-    memcpy(word->ltrs, tempWord, (size_t) n + 1);
+    word->ltrs = (char*) calloc(n + 1, sizeof(char));
+    strcpy(word->ltrs, tempWord);
 
     word->len = n;
 
@@ -73,21 +74,9 @@ void * buildTypeWord(FILE * fin)
  */
 void * buildTypeWord_Prompt()
 {
-    Word * word = (Word*) calloc(1, sizeof(Word));
-
-    char tempWord[100] = "";
     printf("Please enter a word: ");
-    scanf("%s", tempWord);
 
-    strtok(tempWord, "\n");
-    size_t n = strlen(tempWord);
-
-    word->ltrs = (char*) calloc(1, n + 1);
-    memcpy(word->ltrs, tempWord, n + 1);
-
-    word->len = n;
-
-    return word;
+    return buildTypeWord(stdin);
 }// end buildType_Prompt
 
 
@@ -141,4 +130,5 @@ void cleanTypeWord(void * ptr)
 
     free(word->ltrs);
     word->ltrs = NULL;
+    free(ptr);
 }// end cleanType
