@@ -28,7 +28,6 @@ GenericArray * fillArray(FILE * in, int length, void * (*buildType)(FILE * input
     for(int n = 0; n < length; n++){
         array[n].data = buildType(in);
     }
-
     return array;
 }
 
