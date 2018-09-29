@@ -60,19 +60,20 @@ void addFirst(LinkedList * theList, Node * nn)
         perror("NULL variable passed in\n");
         exit(-99);
     }
-    else if(theList->size == 0) {
-        theList->head->next = nn;
-        nn->prev = theList->head;
-        theList->size++;
+    Node *head = theList->head;
+    if(theList->size == 0) {
+        head->next = nn;
+        nn->prev = head;
     }
     else{
-        Node *temp = theList->head->next;
-        nn->prev = theList->head;
+        Node *temp = head->next;
+        nn->prev = head;
         nn->next = temp;
-        theList->head->next = nn;
+        head->next = nn;
         temp->prev = nn;
-        theList->size++;
     }
+    theList->size++;
+
 }// end addFirst
 
 void removeFirst(LinkedList * theList, void (*removeData)(void *))
@@ -82,13 +83,22 @@ void removeFirst(LinkedList * theList, void (*removeData)(void *))
         exit(-99);
     }
     else if(theList->size != 0) {
-        Node * temp = theList->head->next->next;
-        removeData(theList->head->next->data);
-        free(theList->head->next);
-        theList->head->next = NULL;
-        theList->head->next = temp;
-        temp->prev = theList->head;
+        Node *head = theList->head;
+        Node *element1 = head->next;
+        if(element1->next != NULL) {
+            Node *element2 = element1->next;
+            removeData(element1->data);
+            free(element1);
+            head->next = element2;
+            element2->prev = head;
+        }
+        else{
+            head->next = NULL;
+            removeData(element1->data);
+            free(element1);
+        }
         theList->size--;
+        element1 = NULL;
     }
     else{
         printf("\nThe list has no elements to remove!\n");
@@ -128,21 +138,29 @@ void removeItem(LinkedList * theList, void * (*buildType)(FILE * stream), void (
         printf("\nTo remove element\n");
         toRemove->data = buildType(stdin);
         Node *cur = theList->head->next;
+        int found = -1;
         while(cur != NULL){
-            if(compare(toRemove->data, cur->data) == 0){
+            found = compare(toRemove->data, cur->data);
+            if(found == 0){
                 if(cur->next != NULL) {
                     cur->prev->next = cur->next;
                     cur->next->prev = cur->prev;
                 }
                 else
                     cur->prev->next = NULL;
-                removeData(cur);
+                removeData(cur->data);
                 free(cur);
                 cur = NULL;
+                theList->size--;
                 break;
             }
             cur = cur->next;
         }
+        if(found != 0)
+            printf("\nNo element matching user input found in list\n");
+        removeData(toRemove->data);
+        free(toRemove);
+        toRemove = NULL;
     }
     else
         printf("\nThe list has no elements to remove!\n");
