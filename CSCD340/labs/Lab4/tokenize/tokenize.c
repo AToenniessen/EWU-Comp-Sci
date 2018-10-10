@@ -2,7 +2,8 @@
 
 void clean(int argc, char **argv)
 {
-    for(int n = 0; n < argc + 1; n++){
+    for(int n = 0; n < argc; n++){
+        //printf("removed %s", argv[n]);
         free(argv[n]);
         argv[n] = NULL;
     }
@@ -20,29 +21,42 @@ void printargs(int argc, char **argv)
 int makeargs(char *s, char *** argv)
 {
 	if(strlen(s) == 0){
-	    printf("\nThe string passed in is empty\n");
-	    return -1;
+        printf("\nThe string passed in is empty\n");
+        return -1;
 	}
-	int wrdCount = 1, n;
-	char c;
-	for(n = 0; n < strlen(s); n++){
-        c = s[n];
-        if(c == ' '){
-	        wrdCount++;
-	    }
-	}
-	*argv = (char **)calloc(wrdCount + 1, sizeof(char *));
+	int wrdCount = 0, n = 0;
 	char * save;
-	char * temp = strtok_r(s, " ", &save);
-	n = 0;
-	while(temp != NULL){
+
+	char copy[strlen(s)];
+	strcpy(copy, s);
+
+	char * temp = strtok_r(copy, " ", &save);
+
+    if(temp == NULL){
+        printf("\nThe string passed in is empty\n");
+        return -1;
+    }
+    else{
+        wrdCount++;
+        while(temp != NULL){
+            temp = strtok_r(NULL, " ", &save);
+            wrdCount++;
+        }
+    }
+
+    *argv = (char **)calloc(wrdCount, sizeof(char *));
+
+    strcpy(copy, s);
+    temp = strtok_r(copy, " ", &save);
+    while(temp != NULL){
         (*argv)[n] = (char *)calloc(strlen(temp)+1, sizeof(char));
 	    strcpy((*argv)[n], temp);
 	    temp = strtok_r(NULL, " ", &save);
 	    n++;
 	}
-    (*argv)[n] = (char *)calloc(1, sizeof("\0"));
-    strcpy((*argv)[n], "\0");
+
+    (*argv)[n] = '\0';
+
     return n;
 
 }// end makeArgs

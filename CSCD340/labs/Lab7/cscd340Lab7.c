@@ -5,7 +5,7 @@
 
 int main()
 {
-  int argc, pipeCount;	
+  int argc, pipeCount;
   char **argv = NULL, s[MAX];
   int preCount = 0, postCount = 0;
   char ** prePipe = NULL, ** postPipe = NULL;
@@ -29,8 +29,9 @@ int main()
 	else
 	{
 		argc = makeargs(s, &argv);
-	  	if(argc != -1)
+	  	if(argc != -1) {
 	  		forkIt(argv);
+		}
 	  
 	  	clean(argc, argv);
 	  	argv = NULL;

@@ -5,13 +5,39 @@ void forkIt(char ** argv)
 	int status;
 	pid_t pid = fork();
 
-	if(pid != 0)
-		waitpid(pid, &status, 0);
+	int c = 0, bckgrnd = 0;
+	char ltr, *s = argv[c];
+	while(s != NULL) {
+		for (int n = 0; n < strlen(s); n++){
+			ltr = s[n];
+			if(ltr == '&'){
+				bckgrnd = 1;
+				free(argv[c]);
+				argv[c] = NULL;
+				break;
+			}
+		}
+		if(bckgrnd)
+			break;
+		c++;
+		s = argv[c];
+	}
 
-	else
-	{
-		execvp(argv[0], argv);
-		exit(-1);
+	if (pid != 0) {
+		if (!bckgrnd)
+			waitpid(pid, &status, 0);
+	}
+
+	else {
+		if(bckgrnd)
+			setpgid(0, 0);
+		if (execvp(argv[0], argv) == -1) {
+			char error[256];
+			strcpy(error, argv[0]);
+			strcat(error, ": command not found\n");
+			fputs(error, stderr);
+			exit(-1);
+		}
 	}// end else
 
 }// end forkIt
