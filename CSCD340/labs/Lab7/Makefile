@@ -15,10 +15,22 @@ process.o:	./process/process.c ./process/process.h
 pipes.o:	./pipes/pipes.c ./pipes/pipes.h
 	gcc -g -c ./pipes/pipes.c
 
+myCommand.o:    ./myCommand/myCommand.c ./myCommand/myCommand.h
+    gcc -g -c ./myCommand/myCommand.c
+
+linkedlist.o:   ./linkedlist/linkedlist.c ./linkedlist/linkedlist.h
+    gcc -g -c ./linkedlist/linkedlist.c
+
+listUtils.o: ./linkedlist/listUtils.c ./linkedlist/listUtils.h
+    gcc -g -c ./linkedlist/listUtils.c
+
 clean:
 	rm ./pipes/pipes.o	
 	rm ./utils/myUtils.o
 	rm ./process/process.o
 	rm ./tokenize/makeArgs.o
+	rm ./myCommand/myCommand.o
+	rm ./linkedlist/linkedlist.o
+	rm ./linkedlist/listUtils.o
 	rm lab7
 

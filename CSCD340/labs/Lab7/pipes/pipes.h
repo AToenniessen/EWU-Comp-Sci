@@ -11,8 +11,9 @@
 
 int containsPipe(char *s);
 char ** parsePrePipe(char *s, int * preCount);
-char ** parsePostPipe(char *s, int * postCount);
-void pipeIt(char ** prePipe, char ** postPipe);
+char ** parseMidPipe(char *s, int * midCount);
+char *** parsePipe(char *s, int n, char *** args);
+void pipeIt(char *** args, int pipeCount);
 
 
 #endif 

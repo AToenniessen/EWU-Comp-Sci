@@ -11,73 +11,51 @@ int containsPipe(char *s)
 	return count;
 }// end containsPipe
 
-char ** parsePrePipe(char *s, int * preCount)
-{
-    char copy[256];
-    strcpy(copy, s);
-    char **args = NULL, *token = NULL, *save = NULL;
-    token = strtok_r(copy, "|", &save);
-    *preCount = makeargs(token, &args);
-    return args;
-}// end parsePrePipe
-
-
-char ** parsePostPipe(char *s, int * postCount)
+char *** parsePipe(char *s, int n, char *** args)
 {
     char copy[256];
 	strcpy(copy, s);
-    char **args = NULL, *save = NULL;
-    strtok_r(copy, "|", &save);
-    *postCount = makeargs(save, &args);
-    return args;
+    char *save = NULL, *token = NULL;
+    if((token = strtok_r(copy, "|", &save)) == NULL){
+        return args;
+    }
+    else {
+        makeargs(token, &args[n]);
+    }
+    return parsePipe(save, n + 1, args);
 }// end parsePostPipe
 
 
-void pipeIt(char ** prePipe, char ** postPipe)
+void pipeIt(char *** args, int pipeCount)
 {
-	int status;
-    int fd[2], res;
-    pid_t pid = fork();
-	if(pid != 0){
-		waitpid(pid, &status, 0);
-	}
-	else{
-		res = pipe(fd);
-		pid  = fork();
-		if(res < 0)
-		{
-            printf("Pipe Failure\n");
-            exit(-1);
-        }// end if
-        if(pid != 0)
+    int   fd[2];
+    pid_t pid;
+    int   fd_in = 0, status;
+    char ** cmd;
+
+    for(int n = 0; n <= pipeCount; n++){
+        cmd = args[n];
+        pipe(fd);
+        if ((pid = fork()) == -1)
         {
-            close(fd[1]);
-            close(0);
-            dup(fd[0]);
+            exit(EXIT_FAILURE);
+        }
+        else if (pid == 0)
+        {
+            dup2(fd_in, 0);
+            if (args[n + 1] != NULL)
+                dup2(fd[1], 1);
             close(fd[0]);
-            if(execvp(postPipe[0], postPipe) == -1) {
-                char error[256];
-                strcpy(error, postPipe[0]);
-                strcat(error,": command not found\n");
-                fputs(error , stderr);
-                exit(-1);
-            }
-        }// end if AKA parent
+            execvp(cmd[0], cmd);
+            exit(EXIT_FAILURE);
+        }
         else
         {
-            close(fd[0]);
-            close(1);
-            dup(fd[1]);
+            waitpid(pid, &status, 0);
             close(fd[1]);
-            if(execvp(prePipe[0], prePipe) == -1) {
-                char error[256];
-                strcpy(error, prePipe[0]);
-                strcat(error,": command not found\n");
-                fputs(error , stderr);
-                exit(-1);
-            }
-        }// end else AKA child
-	}
+            fd_in = fd[0];
+        }
+    }
 }// end pipeIt
 
 
