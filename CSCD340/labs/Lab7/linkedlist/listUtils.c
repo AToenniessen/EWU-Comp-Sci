@@ -9,7 +9,7 @@ Node * buildNode( char * data, void *(*buildData)(char * data) )
 
 Node * buildNode_Type(void * passedIn)
 {
-     return buildNode(stdin, passedIn);
+     return NULL;//(stdin, passedIn);
 }// end buildNode_Type
 
 

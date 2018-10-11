@@ -4,15 +4,12 @@
 #include "./tokenize/makeArgs.h"
 #include "./linkedlist/linkedList.h"
 #include "linkedlist/listUtils.h"
-#include "myCommand/myData.h"
+#include "myData/myData.h"
 
 int main()
 {
   int argc, pipeCount;
   char **argv = NULL, ***args = NULL, s[MAX];
-  int preCount = 0, midCount = 0, postCount = 0;
-  char ** prePipe = NULL, ** midPipe = NULL, ** postPipe = NULL;
-  LinkedList *cmds = linkedList();
   
   printf("command?: ");
   fgets(s, MAX, stdin);
@@ -25,13 +22,24 @@ int main()
 	{
 		args = (char ***) calloc(pipeCount + 2, sizeof(char **));
 		pipeIt(parsePipe(s, 0, args), pipeCount);
-
 	}// end if pipeCount	  
 
 	else
 	{
         argc = makeargs(s, &argv);
-        if(argc != -1) {
+        if(strcmp(argv[0], "cd") == 0){
+        	int changed = 0;
+        	if(argv[1] == NULL) {
+		        changed = chdir(""); //finish later
+	        }
+	        else {
+		        changed = chdir(argv[1]);
+	        }
+	        if(changed == -1){
+	        	perror("");
+	        }
+        }
+        else if(argc != -1) {
 	  		forkIt(argv);
 		}
 	  
