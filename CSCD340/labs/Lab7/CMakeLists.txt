@@ -4,4 +4,4 @@ project(project C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(project cscd340Lab7.c utils/myUtils.c tokenize/makeArgs.c process/process.c pipes/pipes.c
-        myData/myData.c linkedlist/linkedList.c linkedlist/listUtils.c)
+        myData/myData.c linkedlist/linkedList.c linkedlist/listUtils.c Commands/commands.c Commands/commands.h) #ussh_shell/ussh.c ussh_shell/ussh.h)

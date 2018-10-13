@@ -13,11 +13,14 @@
 struct my_command
 {
 	char * value;
+	int number;
 };
 
 typedef struct my_command MyCommand;
 
-void * buildData(char *command);
+void * buildData(int n, char *command);
+char * accessData(void * ptr);
+void printData(void * ptr);
 void cleanData(void *ptr);
 
 #endif

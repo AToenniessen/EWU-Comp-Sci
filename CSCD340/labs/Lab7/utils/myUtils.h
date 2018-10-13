@@ -16,19 +16,6 @@
 
 #define MAX 100
 
-
-/**
- * @brief Prompts the user for a menu choice.
- *
- * Prompts the user for a menu choice and ensures the value
- * entered by the user is within range.
- *
- * @note The carriage return is removed from the input buffer
- *
- * @return int - Representing the menu choice
- */
-int menu();
-
 /**
  * @brief Strinps the \r and \n from the string if they exist.
  *

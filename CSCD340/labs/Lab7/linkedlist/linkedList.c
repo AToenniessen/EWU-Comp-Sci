@@ -21,22 +21,26 @@ void clearList(LinkedList * theList, void (*removeData)(void *))
     }
     theList->size = 0;
 }// end clearList
+void printRecur(Node * cur, void(*convertData)(void *)){
+	if(cur->next == NULL) {
+		convertData(cur->data);
+		return;
+	}
+	printRecur(cur->next, convertData);
+	convertData(cur->data);
+}
 
 void printList(const LinkedList * theList, void (*convertData)(void *))
 {
     if(theList->size != 0) {
         Node *cur = theList->head->next;
-        while(cur != NULL) {
-            printf("\n");
-            convertData(cur->data);
-            cur = cur->next;
-        }
-        printf("\n");
+	    printRecur(cur, convertData);
     }
     else
         printf("\nThe list is empty!\n\n");
 
 }// end printList
+
 
 void addLast(LinkedList * theList, Node * nn)
 {

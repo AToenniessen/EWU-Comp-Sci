@@ -37,7 +37,7 @@
  *
  * @warning - Since FILE *fin is a pass through it is not checked.
  */
-Node * buildNode(char * data, void *(*buildData)(char * data) );
+Node * buildNode(int n, char * data, void *(*buildData)(int n, char * data) );
 
 
 /**

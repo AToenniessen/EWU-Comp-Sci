@@ -1,6 +1,6 @@
 #include "process.h"
 
-void forkIt(char ** argv)
+void forkIt(char * file, char ** argv)
 {
 	int status;
 	pid_t pid = fork();
@@ -31,6 +31,7 @@ void forkIt(char ** argv)
 	else {
 		if(bckgrnd)
 			setpgid(0, 0);
+		setenv("PATH", file, 1);
 		if (execvp(argv[0], argv) == -1) {
 			char error[256];
 			strcpy(error, argv[0]);
@@ -41,4 +42,25 @@ void forkIt(char ** argv)
 	}// end else
 
 }// end forkIt
+
+
+
+void modifyPath(char ** PATH, char *s){
+	char *token, *save, *t;
+	if((token = strtok_r(s, ":", &save)) == NULL){
+		t = (char *)calloc(strlen(save), sizeof(char));
+		strcpy(t, save);
+		*PATH = t;
+	}
+	else if(strcmp(token, "$PATH") == 0){
+		if(save[0] != '/')
+			perror("\ninput PATH not formatted correctly\n");
+		t = (char *)calloc(strlen(save) + strlen(*PATH) + 1, sizeof(char));
+		strcpy(t, *PATH);
+		strcat(t, ":");
+		strcat(t, save);
+		*PATH = t;
+	} else
+		perror("\nImproper declaration of PATH command\n");
+}
 
