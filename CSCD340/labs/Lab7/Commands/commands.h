@@ -9,11 +9,7 @@
 #include "../tokenize/makeArgs.h"
 #include "../process/process.h"
 
-#ifndef PROJECT_COMMANDS_H
-#define PROJECT_COMMANDS_H
 
-#endif //PROJECT_COMMANDS_H
-
-int executeHistory(LinkedList *history, char *PATH, char ***argv);
+int executeHistory(int n, LinkedList *history, char *PATH, char ***argv, int histCount);
 void executeBangBang(char *cmd, void (*forkIt)(char * FILE, char ** argv));
 int executeCD(char ** argv);

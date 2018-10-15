@@ -3,16 +3,20 @@
 
 void * buildData(int n, char *command)
 {
-	MyCommand * temp = calloc(1, sizeof(MyCommand));
-	temp->value = (char *) calloc(1, sizeof(command));
+	MyCommand * temp = (MyCommand *) calloc(1, sizeof(MyCommand));
+	temp->value = (char *) calloc(strlen(command) + 1, sizeof(char));
 	strcpy(temp->value, command);
 	temp->number = n;
 	return temp;	
 
 }
-char * accessData(void * ptr){
+char * accessVal(void *ptr){
 	MyCommand * temp = (MyCommand *)ptr;
 	return temp->value;
+}
+int accessNum(void *ptr){
+	MyCommand * temp = (MyCommand *)ptr;
+	return temp->number;
 }
 void printData(void * ptr)
 {
@@ -26,4 +30,23 @@ void cleanData(void *ptr)
 	free(temp->value);
 	free(temp);
 
+}
+void writeData(FILE * fin, void *ptr){
+	MyCommand * temp = (MyCommand *)ptr;
+	fprintf(fin, "%i\n", temp->number);
+	fprintf(fin, "%s\n", temp->value);
+}
+void *readData(FILE * fin){
+	char n[1001], v[101];
+	MyCommand * temp = NULL;
+	if(fgets(n, 1000, fin) != NULL && fgets(v, 100, fin) != NULL){
+		n[strlen(n) - 1] = '\0';
+		v[strlen(v) - 1] = '\0';
+		temp = buildData((int)strtol(n, (char**)NULL, 10), v);
+	}
+//	else{
+//		//perror("\nEOF\n");
+//		exit(-99);
+//	}
+	return temp;
 }

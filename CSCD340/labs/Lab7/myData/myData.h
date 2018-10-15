@@ -19,8 +19,11 @@ struct my_command
 typedef struct my_command MyCommand;
 
 void * buildData(int n, char *command);
-char * accessData(void * ptr);
+char * accessVal(void *ptr);
+int accessNum(void *ptr);
 void printData(void * ptr);
 void cleanData(void *ptr);
+void writeData(FILE * fin, void *ptr);
+void *readData(FILE * fin);
 
 #endif

@@ -29,4 +29,7 @@
  */
 void strip(char *array);
 
+FILE * openFin(char * directory, char * path, char *m);
+void closeFin(FILE * fin);
+
 #endif

@@ -21,20 +21,45 @@ void clearList(LinkedList * theList, void (*removeData)(void *))
     }
     theList->size = 0;
 }// end clearList
-void printRecur(Node * cur, void(*convertData)(void *)){
-	if(cur->next == NULL) {
+LinkedList * readList(FILE * fin){
+    LinkedList * temp = linkedList();
+    if(fin == NULL)
+    	return temp;
+    void * cur = NULL;
+    while((cur = readData(fin)) != NULL){
+        Node * nn = (Node *)calloc(1, sizeof(Node));
+        nn->data = cur;
+        addLast(temp, nn);
+    }
+    closeFin(fin);
+    return temp;
+}
+void saveList(LinkedList * theList, FILE * fin, int histFileCount){
+    if(fin != NULL){
+        Node * cur = theList->head->next;
+        int n = 0;
+        while(cur != NULL && n <= histFileCount){
+            writeData(fin, cur->data);
+            cur = cur->next;
+            n++;
+        }
+    }
+    closeFin(fin);
+}
+void printRecur(Node * cur, void(*convertData)(void *), int n, int histcount){
+	if(cur->next == NULL || n == histcount) {
 		convertData(cur->data);
 		return;
 	}
-	printRecur(cur->next, convertData);
+	printRecur(cur->next, convertData, ++n, histcount);
 	convertData(cur->data);
 }
 
-void printList(const LinkedList * theList, void (*convertData)(void *))
+void printList(const LinkedList * theList, void (*convertData)(void *), int histCount)
 {
     if(theList->size != 0) {
         Node *cur = theList->head->next;
-	    printRecur(cur, convertData);
+	    printRecur(cur, convertData, 1, histCount);
     }
     else
         printf("\nThe list is empty!\n\n");

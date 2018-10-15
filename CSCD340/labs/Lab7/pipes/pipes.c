@@ -11,25 +11,22 @@ int containsPipe(char *s)
 	return count;
 }// end containsPipe
 
-char *** parsePipe(char *s, int n, char *** args) //unknown memory leak, fix later
+void parsePipe(char *s, int n, char *** args) //unknown memory leak, fix later
 {
-    char copy[256];
-	strcpy(copy, s);
-    char *save = NULL, *token = NULL;
-    if((token = strtok_r(copy, "|", &save)) == NULL){
-        return args;
+    char *save = s, *token = NULL;
+    for(int i = 0; i <= n + 1; i++){
+        token = strtok_r(save, "|", &save);
+        if(token == NULL)
+            break;
+        makeargs(token, &args[i]);
     }
-    else {
-        makeargs(token, &(args[n]));
-    }
-    return parsePipe(save, n + 1, args);
 }// end parsePostPipe
 
 
 void pipeIt(char * file, char *** args, int pipeCount)
 {
     int   fd[2];
-    pid_t pid;
+    pid_t pid = 0;
     int   fd_in = 0, status;
     char ** cmd;
 
@@ -46,7 +43,7 @@ void pipeIt(char * file, char *** args, int pipeCount)
             if (args[n + 1] != NULL)
                 dup2(fd[1], 1);
             close(fd[0]);
-            //setenv("PATH", file, 1);
+            setenv("PATH", file, 1);
             execvp(cmd[0], cmd);
             exit(EXIT_FAILURE);
         }
