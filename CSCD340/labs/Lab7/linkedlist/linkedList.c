@@ -65,6 +65,20 @@ void printList(const LinkedList * theList, void (*convertData)(void *), int hist
         printf("\nThe list is empty!\n\n");
 
 }// end printList
+Node * getNode(LinkedList * theList, int pos){
+	Node *cur = theList->head->next;
+	if (pos <= 0 || pos >= theList->size) {
+		fprintf(stderr, "\nCommand number requested does not exist\n");
+		return NULL;
+	} else{
+		while(cur->next != NULL){
+			if(accessNum(cur->data) == pos)
+				break;
+			cur = cur->next;
+		}
+	}
+	return cur;
+}
 
 
 void addLast(LinkedList * theList, Node * nn)

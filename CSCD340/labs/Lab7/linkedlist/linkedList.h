@@ -162,5 +162,6 @@ void printList(const LinkedList * theList, void (*convertData)(void *), int hist
 
 void saveList(LinkedList * theList, FILE * fin, int histFileCount);
 LinkedList * readList(FILE *fin);
+Node * getNode(LinkedList * theList, int pos);
 
 #endif // LINKEDLIST_H

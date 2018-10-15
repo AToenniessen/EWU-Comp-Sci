@@ -10,6 +10,4 @@
 #include "../process/process.h"
 
 
-int executeHistory(int n, LinkedList *history, char *PATH, char ***argv, int histCount);
-void executeBangBang(char *cmd, void (*forkIt)(char * FILE, char ** argv));
 int executeCD(char ** argv);

@@ -11,17 +11,19 @@ int containsPipe(char *s)
 	return count;
 }// end containsPipe
 
-void parsePipe(char *s, int n, char *** args) //unknown memory leak, fix later
+int * parsePipe(char *s, int n, char *** args) //unknown memory leak, fix later
 {
     char *save = NULL, *token = NULL, temp[100];
+    int *r = (int *)calloc(n + 2, sizeof(int));
     strcpy(temp, s);
     token = strtok_r(temp, "|", &save);
     for(int i = 0; i <= n + 1; i++){
         if(token == NULL)
             break;
-        makeargs(token, &args[i]);
-        token = strtok_r(NULL, "|", &save);
+        r[i] = makeargs(token, &args[i]);
+	    token = strtok_r(NULL, "|", &save);
     }
+    return r;
 }// end parsePostPipe
 
 

@@ -10,7 +10,7 @@
 
 int main()
 {
-  int argc = 0, pipeCount = 0, histCount = 100, histFileCount = 1000;
+  int argc = 0, pipeCount = 0, histCount = 1000, histFileCount = 2000;
   char *startDir = (char *)calloc(4096, sizeof(char)), *PATH = getenv("PATH"), init[4096];
   getcwd(startDir, 4096);
 	LinkedList * history = readList(openFin(startDir, "/.ussh_history", "r"));
@@ -29,12 +29,13 @@ int main()
 	  {
 	  	argc = pipeCount + 1;
 	  	    args = (char ***)calloc(pipeCount + 2, sizeof(char**));
-	  	    parsePipe(curcmd, pipeCount, args);
+	  	    int * r = parsePipe(curcmd, pipeCount, args);
 			pipeIt(PATH, args, pipeCount);
-			for(int i = 0; i <= pipeCount + 1; i++){
-				free(args[i]);
+			for(int i = 0; i <= argc; i++){
+				clean(r[i], args[i]);
 			}
-			free(args);
+		  free(r);
+		  free(args);
 			args = NULL;
 	  }// end if pipeCount
 			else
@@ -47,21 +48,18 @@ int main()
 	        }
 	        else if(strcmp(argv[0], "!!") == 0){
 				strcpy(curcmd, lstcmd);
-				if(strcmp(curcmd, "history") == 0)
-					printList(history, printData, histCount);
-				else {
-					clean(argc, argv);
-					argc = makeargs(curcmd, &argv);
-					forkIt(PATH, argv);
-				}
+				continue;
 	        }
-	        else if(argv[0][0] == '!'){     //figure out why it randomly picks a command to execute
+	        else if(argv[0][0] == '!'){
 		        char s[1000];
 		        strcpy(s,argv[0]+1);
 		        clean(argc, argv);
 		        int n = (int)strtol(s, (char **)NULL, 10);
-		        if((argc = executeHistory(n, history, PATH, &argv, histCount)) != 0)
-		            strcpy(curcmd, argv[0]);
+		        Node * temp;
+		        if((temp = getNode(history, n)) != NULL) {
+			        strcpy(curcmd, accessVal(temp->data));
+			        continue;
+		        }
 	        }
 	        else if(strcmp(argv[0], "cd") == 0){
 	            if(executeCD(argv))
