@@ -13,12 +13,14 @@ int containsPipe(char *s)
 
 void parsePipe(char *s, int n, char *** args) //unknown memory leak, fix later
 {
-    char *save = s, *token = NULL;
+    char *save = NULL, *token = NULL, temp[100];
+    strcpy(temp, s);
+    token = strtok_r(temp, "|", &save);
     for(int i = 0; i <= n + 1; i++){
-        token = strtok_r(save, "|", &save);
         if(token == NULL)
             break;
         makeargs(token, &args[i]);
+        token = strtok_r(NULL, "|", &save);
     }
 }// end parsePostPipe
 

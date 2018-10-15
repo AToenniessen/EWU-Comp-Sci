@@ -27,6 +27,7 @@ int main()
 	  pipeCount = containsPipe(curcmd);
 	  if(pipeCount > 0)
 	  {
+	  	argc = pipeCount + 1;
 	  	    args = (char ***)calloc(pipeCount + 2, sizeof(char**));
 	  	    parsePipe(curcmd, pipeCount, args);
 			pipeIt(PATH, args, pipeCount);
