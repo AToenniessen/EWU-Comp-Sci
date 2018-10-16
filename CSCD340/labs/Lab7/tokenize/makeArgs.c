@@ -41,8 +41,9 @@ int makeargs(char *s, char *** argv)
 		return -1;
 
 	(*argv) = (char **)calloc(count + 1, sizeof(char *));
-	
-	token = strtok_r(s, " ", &saveptr);
+
+	strcpy(copy, s);
+	token = strtok_r(copy, " ", &saveptr);
 	(*argv)[0] = (char *)calloc(strlen(token) + 1, sizeof(char));
 	strcpy((*argv)[0], token);
 

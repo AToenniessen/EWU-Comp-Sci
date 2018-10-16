@@ -130,7 +130,7 @@ void removeLast(LinkedList * theList, void (*removeData)(void *));
  * @warning - The passed in LinkedList * theList is checked - exit(-99) if NULL
  * @warning - The passed in Node * nn is checked - exit(-99) if NULL
  */
-void removeItem(LinkedList * theList, void * (*buildType)(FILE * stream), void (*removeData)(void *), int (*compare)(const void *, const void *));
+void removeItem(LinkedList * theList, Node * toRemove, void (*removeData)(void *), int (*compare)(const void *, const void *));
 
 
 /**
@@ -163,5 +163,5 @@ void printList(const LinkedList * theList, void (*convertData)(void *), int hist
 void saveList(LinkedList * theList, FILE * fin, int histFileCount);
 LinkedList * readList(FILE *fin);
 Node * getNode(LinkedList * theList, int pos);
-
+Node * findData(LinkedList * theList, char *cmd, char * (*accessData)(void * ptr));
 #endif // LINKEDLIST_H

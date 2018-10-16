@@ -46,34 +46,44 @@ void saveList(LinkedList * theList, FILE * fin, int histFileCount){
     }
     closeFin(fin);
 }
-void printRecur(Node * cur, void(*convertData)(void *), int n, int histcount){
-	if(cur->next == NULL || n == histcount) {
-		convertData(cur->data);
-		return;
-	}
-	printRecur(cur->next, convertData, ++n, histcount);
-	convertData(cur->data);
-}
 
 void printList(const LinkedList * theList, void (*convertData)(void *), int histCount)
 {
     if(theList->size != 0) {
         Node *cur = theList->head->next;
-	    printRecur(cur, convertData, 1, histCount);
+        for(int i = 1; i <= theList->size; i++){
+            if(i >= theList->size - histCount){
+                printf("%i", i);
+                convertData(cur->data);
+            }
+            cur = cur->next;
+        }
     }
     else
         printf("\nThe list is empty!\n\n");
 
 }// end printList
+Node * findData(LinkedList * theList, char *cmd, char * (*accessData)(void * ptr)){
+    if(theList->size <=0){
+        //fprintf(stderr, "\n\n");
+        return NULL;
+    }
+    Node *cur = theList->head->next;
+    while(cur !=NULL){
+        if(strcmp(accessData(cur->data), cmd) == 0){
+            break;
+        }
+        cur = cur->next;
+    }
+    return cur;
+}
 Node * getNode(LinkedList * theList, int pos){
 	Node *cur = theList->head->next;
 	if (pos <= 0 || pos >= theList->size) {
 		fprintf(stderr, "\nCommand number requested does not exist\n");
 		return NULL;
 	} else{
-		while(cur->next != NULL){
-			if(accessNum(cur->data) == pos)
-				break;
+		for(int i = 1; i < pos; i++){
 			cur = cur->next;
 		}
 	}
@@ -170,16 +180,13 @@ void removeLast(LinkedList * theList, void (*removeData)(void *))
 }// end removeLast
 
 
-void removeItem(LinkedList * theList, void * (*buildType)(FILE * stream), void (*removeData)(void *), int (*compare)(const void *, const void *))
+void removeItem(LinkedList * theList, Node * toRemove, void (*removeData)(void *), int (*compare)(const void *, const void *))
 {
     if(theList == NULL){
         perror("\nThe list passed in is NULL\n");
         exit(-99);
     }
     else if(theList->size != 0) {
-        Node *toRemove = (Node *) calloc(1, sizeof(Node));
-        printf("\nTo remove element\n");
-        toRemove->data = buildType(stdin);
         Node *cur = theList->head->next;
         int found = -1;
         while(cur != NULL){
@@ -199,13 +206,9 @@ void removeItem(LinkedList * theList, void * (*buildType)(FILE * stream), void (
             }
             cur = cur->next;
         }
-        if(found != 0)
-            printf("\nNo element matching user input found in list\n");
         removeData(toRemove->data);
         free(toRemove);
         toRemove = NULL;
     }
-    else
-        printf("\nThe list has no elements to remove!\n");
 }// end removeItem
 

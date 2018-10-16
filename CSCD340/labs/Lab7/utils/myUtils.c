@@ -17,6 +17,8 @@ void strip(char *array)
 
 	  else if(array[x] == '\n')
 		 array[x] = '\0';
+	  else if(array[x] == '\"')
+	  	array[x] = ' ';
 
 	  x++;
 
@@ -34,7 +36,7 @@ FILE * openFin(char * path, char * file, char * m){
 	FILE * fin = fopen(temp, m);
 	if(fin != NULL)
 		return fin;
-	fprintf(stderr, "\nfile cannot be opened, using defaults\n");
+	fprintf(stderr, "\n%s cannot be opened, using defaults\n", file);
 	return NULL;
 }
 void closeFin(FILE * fin){

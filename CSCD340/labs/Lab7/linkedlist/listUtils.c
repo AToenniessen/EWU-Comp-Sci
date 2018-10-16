@@ -1,9 +1,9 @@
 #include "listUtils.h"
 
-Node * buildNode(int n, char * data, void *(*buildData)(int n, char * data) )
+Node * buildNode(char * command, char * alias, void *(*buildData)(char * data, char * alias) )
 {
     Node * temp = (Node *)calloc(1, sizeof(Node));
-    temp->data = buildData(n, data);
+    temp->data = buildData(command, alias);
     return temp;
 }// end buildNode
 
@@ -16,7 +16,7 @@ Node * buildNode_Type(void * passedIn)
 void buildListTotal(LinkedList * myList, int total, char ** cmds, void * (*buildData)(char * data) )
 {
 //    for(int n = 0; n < total; n++)
-//        addFirst(myList, buildNode(cmds[n], buildData));
+//        addFirst(myList, buildNode(cmds[n], buildCommand));
 }// end buildListTotal
 
 
