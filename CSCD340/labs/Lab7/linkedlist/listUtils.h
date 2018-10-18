@@ -37,7 +37,7 @@
  *
  * @warning - Since FILE *fin is a pass through it is not checked.
  */
-Node * buildNode(char * command, char *alias, void *(*buildData)(char * command, char * alias) );
+Node *buildNode(char *command, char *alias, void *(*buildData)(char *command, char *alias));
 
 
 /**
@@ -61,7 +61,7 @@ Node * buildNode(char * command, char *alias, void *(*buildData)(char * command,
  * @return Node * - Representing a node for the linked list containing the specific data type.
  
  */
-Node * buildNode_Type(void * passedIn);
+Node *buildNode_Type(void *passedIn);
 
 
 /**
@@ -78,7 +78,7 @@ Node * buildNode_Type(void * passedIn);
  * @warning - The theList-> size is checked and if the list contains 0 or 1 element then the function
  * does not attempt to sort the list.
  */
-void sort(LinkedList * theList, int (*compare)(const void *, const void *));
+void sort(LinkedList *theList, int (*compare)(const void *, const void *));
 
 
 /**
@@ -101,7 +101,7 @@ void sort(LinkedList * theList, int (*compare)(const void *, const void *));
  * @warning - The passed in int total is checked - exit(-99) if <= 0
  * @warning - Since FILE *fin is a pass through it is not checked.
  */
-void buildListTotal(LinkedList * myList, int total, char ** cmds, void * (*buildData)(char * data));
+void buildListTotal(LinkedList *myList, int total, char **cmds, void *(*buildData)(char *data));
 
 
 #endif // LISTUTILS_H

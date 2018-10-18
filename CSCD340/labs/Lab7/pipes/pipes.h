@@ -10,8 +10,10 @@
 #include <sys/types.h>
 
 int containsPipe(char *s);
-int * parsePipe(char *s, int n, char *** args);
-void pipeIt(char * file, char *** args, int pipeCount);
+
+int *parsePipe(char *s, int n, char ***args);
+
+void pipeIt(char *file, char ***args, int pipeCount);
 
 
 #endif 

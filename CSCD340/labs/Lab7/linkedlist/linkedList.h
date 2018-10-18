@@ -24,11 +24,10 @@
  *
  * @note I prefer named structures and then the typedef after the structure
  */
-struct node
-{
-    void * data;
-    struct node * next;
-    struct node * prev;
+struct node {
+	void *data;
+	struct node *next;
+	struct node *prev;
 };
 typedef struct node Node;
 
@@ -43,10 +42,9 @@ typedef struct node Node;
  * @note In true C fashion the structures will not contain function prototypes
  * or function pointer prototypes.
  */
-struct linkedlist
-{
-    Node * head;
-    int size;
+struct linkedlist {
+	Node *head;
+	int size;
 };
 typedef struct linkedlist LinkedList;
 
@@ -59,7 +57,7 @@ typedef struct linkedlist LinkedList;
  *
  * @return LinkedList * - The linked list pointer that contains a dummy head node but is not circular.
  */
-LinkedList * linkedList();
+LinkedList *linkedList();
 
 
 /**
@@ -73,7 +71,7 @@ LinkedList * linkedList();
  * @warning - The passed in LinkedList * theList is checked - exit(-99) if NULL
  * @warning - The passed in Node * nn is checked - exit(-99) if NULL
  */
-void addLast(LinkedList * theList, Node * nn);
+void addLast(LinkedList *theList, Node *nn);
 
 
 /**
@@ -87,7 +85,7 @@ void addLast(LinkedList * theList, Node * nn);
  * @warning - The passed in LinkedList * theList is checked - exit(-99) if NULL
  * @warning - The passed in Node * nn is checked - exit(-99) if NULL
  */
-void addFirst(LinkedList * theList, Node * nn);
+void addFirst(LinkedList *theList, Node *nn);
 
 
 /**
@@ -100,7 +98,7 @@ void addFirst(LinkedList * theList, Node * nn);
  *
  * @warning - The passed in LinkedList * theList is checked - exit(-99) if NULL
  */
-void removeFirst(LinkedList * theList, void (*removeData)(void *));
+void removeFirst(LinkedList *theList, void (*removeData)(void *));
 
 
 /**
@@ -113,7 +111,7 @@ void removeFirst(LinkedList * theList, void (*removeData)(void *));
  *
  * @warning - The passed in LinkedList * theList is checked - exit(-99) if NULL
  */
-void removeLast(LinkedList * theList, void (*removeData)(void *));
+void removeLast(LinkedList *theList, void (*removeData)(void *));
 
 
 /**
@@ -130,7 +128,8 @@ void removeLast(LinkedList * theList, void (*removeData)(void *));
  * @warning - The passed in LinkedList * theList is checked - exit(-99) if NULL
  * @warning - The passed in Node * nn is checked - exit(-99) if NULL
  */
-void removeItem(LinkedList * theList, Node * toRemove, void (*removeData)(void *), int (*compare)(const void *, const void *));
+void
+removeItem(LinkedList *theList, Node *toRemove, void (*removeData)(void *), int (*compare)(const void *, const void *));
 
 
 /**
@@ -144,7 +143,7 @@ void removeItem(LinkedList * theList, Node * toRemove, void (*removeData)(void *
  *
  * @warning - The passed in LinkedList * theList is checked - if NULL nothing happens
  */
-void clearList(LinkedList * theList, void (*removeData)(void *));
+void clearList(LinkedList *theList, void (*removeData)(void *));
 
 
 /**
@@ -158,10 +157,14 @@ void clearList(LinkedList * theList, void (*removeData)(void *));
  *
  * @warning - The passed in LinkedList * theList is checked - if NULL "Empty List" is printed
  */
-void printList(const LinkedList * theList, void (*convertData)(void *), int histCount);
+void printList(Node *cur, void (*convertData)(void *), int histCount, int i, int n);
 
-void saveList(LinkedList * theList, FILE * fin, int histFileCount);
-LinkedList * readList(FILE *fin);
-Node * getNode(LinkedList * theList, int pos);
-Node * findData(LinkedList * theList, char *cmd, char * (*accessData)(void * ptr));
+void saveList(LinkedList *theList, FILE *fin, int histFileCount);
+
+LinkedList *readList(FILE *fin);
+
+Node *getNode(LinkedList *theList, int pos);
+
+Node *findData(LinkedList *theList, char *cmd, char *(*accessData)(void *ptr));
+
 #endif // LINKEDLIST_H
