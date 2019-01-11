@@ -1,12 +1,14 @@
 package com.toenniessen.alex.atoenniessenlab1;
 
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +36,25 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void onButtonClick(View item) {
+    protected void onButtonClick(View item) {
         int id = item.getId();
         if(id == R.id.Take_Survey){
-                Toast.makeText(this,"Lab 1, Winter 2019, Alexander Toenniessen",
-                        Toast.LENGTH_SHORT).show();
+            EditText input = findViewById(R.id.Name_Input);
+            String name = input.getText().toString();
+            if(name.isEmpty()){
+                Toast.makeText(this, "Please input a name before continuing",
+                        Toast.LENGTH_LONG).show();
+            }
+            else{
+                Intent surveyIntent = new Intent(this, SurveyActivity.class);
+                surveyIntent.putExtra("name", name);
+                startActivityForResult(surveyIntent, 1);
             }
         }
+        else if(id == R.id.Goto_Website){
+            Toast.makeText(this,"goto website pressed",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }

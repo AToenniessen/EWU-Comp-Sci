@@ -6,4 +6,8 @@
     <string name="results">(Results will be shown here)</string>
     <string name="name_input">First Name:</string>
     <string name="title">One Question Survey</string>
+    <string name="survey_greeting">Hello </string>
+    <string name="survey_question">How old are you?</string>
+    <string name="age_input_label">Age:</string>
+    <string name="submit">Submit</string>
 </resources>
