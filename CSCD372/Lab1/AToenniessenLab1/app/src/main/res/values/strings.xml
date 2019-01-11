@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AToenniessenLab1</string>
+    <string name="about_string">About</string>
+    <string name="take_survey">Take Survey</string>
+    <string name="goto_website">Goto Website</string>
+    <string name="results">(Results will be shown here)</string>
+    <string name="name_input">First Name:</string>
+    <string name="title">One Question Survey</string>
+</resources>
