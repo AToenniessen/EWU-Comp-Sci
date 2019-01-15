@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AToenniessenLab1</string>
-    <string name="about_string">About</string>
+    <string name="about_label">About</string>
+    <string name="about_output">Lab 1, Winter 2019, Alexander Toenniessen</string>
     <string name="take_survey">Take Survey</string>
     <string name="goto_website">Goto Website</string>
     <string name="results">(Results will be shown here)</string>
@@ -10,4 +11,9 @@
     <string name="survey_question">How old are you?</string>
     <string name="age_input_label">Age:</string>
     <string name="submit">Submit</string>
+    <string name="response_under_40">You\'re under 40, so your\'re trustworthy</string>
+    <string name="response_over_40">You\'re NOT under 40, so your\'re NOT trustworthy</string>
+    <string name="no_name">Please input a name before continuing</string>
+    <string name="no_age">Please input your age before continuing</string>
+
 </resources>

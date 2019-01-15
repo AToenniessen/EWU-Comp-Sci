@@ -1,9 +1,11 @@
 package com.toenniessen.alex.atoenniessenlab1;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +25,17 @@ public class SurveyActivity extends AppCompatActivity {
         }
     }
     protected void onButtonClick(View item) {
-        int id = item.getId();
-        if(id == R.id.Submit){
-            Toast.makeText(this,"Submit pressed",
-                    Toast.LENGTH_SHORT).show();
+        EditText input = findViewById(R.id.Age_Input);
+        String age = input.getText().toString();
+        if(age.isEmpty()){
+            Toast.makeText(this, R.string.no_age,
+                    Toast.LENGTH_LONG).show();
+        }
+        else{
+            Intent result = new Intent();
+            result.putExtra("age", Integer.parseInt(age));
+            setResult(Activity.RESULT_OK, result);
+            finish();
         }
     }
 }
