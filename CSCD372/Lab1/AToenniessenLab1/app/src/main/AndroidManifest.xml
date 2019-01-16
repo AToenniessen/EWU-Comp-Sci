@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SurveyActivity"></activity>
+        <activity android:name=".TracerActivity" />
     </application>
 
 </manifest>

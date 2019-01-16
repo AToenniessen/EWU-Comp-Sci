@@ -3,6 +3,7 @@ package com.toenniessen.alex.atoenniessenlab1;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends TracerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else if(id == R.id.Goto_Website){
-            Toast.makeText(this,"goto website pressed",
-                    Toast.LENGTH_SHORT).show();
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://sites.google.com/site/pschimpf99/"));
+            startActivity(webIntent);
         }
 
     }
