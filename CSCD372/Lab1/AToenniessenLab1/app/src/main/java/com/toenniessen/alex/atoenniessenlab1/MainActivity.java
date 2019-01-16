@@ -20,6 +20,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        if(intent != null){
+            String action = intent.getAction();
+            String type = intent.getType();
+            if(action != null && action.equals(Intent.ACTION_SEND)
+                    && type != null && type.equals("text/plain")){
+                TextView results = (TextView) findViewById(R.id.results);
+                results.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            }
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
