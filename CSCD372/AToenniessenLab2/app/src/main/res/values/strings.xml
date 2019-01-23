@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AToenniessenLab2</string>
+    <string name="about_string">About</string>
+    <string name="about_output">Lab 2, Winter 2019, Alexander Toenniessen</string>
+    <string name="exposed_nav">Select an Image</string>
+    <array name="names">
+        <item>Cindy</item>
+        <item>Fred</item>
+        <item>Kate</item>
+        <item>Keith</item>
+        <item>Matt</item>
+        <item>Rickey</item>
+    </array>
+    <integer-array name="ids">
+        <item>@drawable/cindy</item>
+        <item>@drawable/fred</item>
+        <item>@drawable/kate</item>
+        <item>@drawable/keith</item>
+        <item>@drawable/matt</item>
+        <item>@drawable/rickey</item>
+    </integer-array>
+</resources>
