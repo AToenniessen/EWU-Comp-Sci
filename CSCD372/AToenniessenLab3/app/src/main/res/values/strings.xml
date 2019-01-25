@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AToenniessenLab3</string>
+    <string name="about_string">About</string>
+    <string name="about_data">"Lab 3, Winter 2019, Alexander Toenniessen"</string>
+    <string name="default_manufacturer">New Manufacturer</string>
+    <string name="default_model">New Model</string>
+    <string name="model_not_found">No model of this name exists for this manufacturer.</string>
+</resources>
