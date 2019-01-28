@@ -26,7 +26,7 @@ int *parsePipe(char *s, int n, char ***args)
 }// end parsePostPipe
 
 
-void pipeIt(char *file, char ***args, int pipeCount) {
+void pipeIt(char ***args, int pipeCount) {
 	int fd[2];
 	pid_t pid = 0;
 	int fd_in = 0, status;
@@ -42,14 +42,12 @@ void pipeIt(char *file, char ***args, int pipeCount) {
 			if (args[n + 1] != NULL)
 				dup2(fd[1], 1);
 			close(fd[0]);
-			setenv("PATH", file, 1);
 			execvp(cmd[0], cmd);
 			exit(EXIT_FAILURE);
 		} else {
 			waitpid(pid, &status, 0);
 			close(fd[1]);
 			fd_in = fd[0];
-			//exit(-1);
 		}
 	}
 }// end pipeIt

@@ -13,7 +13,7 @@ int containsPipe(char *s);
 
 int *parsePipe(char *s, int n, char ***args);
 
-void pipeIt(char *file, char ***args, int pipeCount);
+void pipeIt(char ***args, int pipeCount);
 
 
 #endif 

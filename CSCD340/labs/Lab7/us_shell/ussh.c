@@ -3,10 +3,8 @@
 Shell *uShell() {
 	Shell *temp = (Shell *) calloc(1, sizeof(Shell));
 	char curcmd[MAX];
-	temp->argc = 0;
 	temp->startDir = (char *) calloc(4096, sizeof(char));
 	getcwd(temp->startDir, 4096);
-	temp->PATH = getenv("PATH");
 	temp->alias = linkedList();
 	temp->history = linkedList();
 	FILE *fin = openFin(temp->startDir, "/.usshrc", "r");
@@ -38,36 +36,60 @@ Shell *uShell() {
 	return temp;
 }
 
-void stitchCmd(Shell * shell, char ** curcmd){
-	char temp[100];
-	strcpy(temp, *curcmd);
-
-}
-void checkAlias(LinkedList *alias, char **curcmd, char *(*accessData)(void *ptr)){
+void checkAlias(LinkedList *alias, char **curcmd, char *(*accessData)(void *ptr)) {
 	Node *t = findData(alias, *curcmd, accessData);
 	if (t != NULL)
 		strcpy(*curcmd, accessCommand(t->data));
 }
+void stitchCmd(LinkedList *alias, char ** curcmd){
+	char **res, **argv;
+	int i;
+
+	int argc = makeargs(*curcmd, &argv), newcmdlen = 0;
+	res = (char **)calloc(argc, sizeof(char *));
+	for(i = 0; i < argc; i++){
+		Node *t = findData(alias, argv[i], accessAlias);
+		if(t != NULL){
+			res[i] = (char *)calloc(strlen(accessCommand(t->data)) + 1, sizeof(char));
+			strcpy(res[i], accessCommand(t->data));
+			newcmdlen += strlen(accessCommand(t->data));
+		}
+		else{
+			res[i] = (char *)calloc(strlen(argv[i]) + 1, sizeof(char));
+			strcpy(res[i], argv[i]);
+			newcmdlen += strlen(argv[i]);
+		}
+	}
+	clean(argc, argv);
+	*curcmd = (char *) calloc(newcmdlen + argc, sizeof(char));
+	strcpy(*curcmd, res[0]);
+	free(res[0]);
+	for(i = 1; i < argc; i++){
+		strcat(*curcmd, " ");
+		strcat(*curcmd, res[i]);
+		free(res[i]);
+	}
+	free(res);
+}
 
 int processCommand(Shell *shell, char *curcmd) {
-	int argc, pipeCount;
+	int argc, pipeCount = 0;
 	char **argv, *c, *save;
 
-//	if(strstr(curcmd, "|"))
-//		stitchCmd(shell, &curcmd);
-//	else {
-	checkAlias(shell->alias, &curcmd, accessAlias);
-//	}
+	if(strstr(curcmd, "|")) {
+		stitchCmd(shell->alias, &curcmd);
+	}
+	else {
+		checkAlias(shell->alias, &curcmd, accessAlias);
+	}
 
 	argc = makeargs(curcmd, &argv);
 
 	if (argc > 0) {
 		addCommand(shell->history, shell->lstcmd, shell->curcmd);
-
 		pipeCount = containsPipe(curcmd);
 		if (pipeCount > 0) {
-			//argc = pipeCount + 1;
-			executePipe(pipeCount, curcmd, shell->PATH);
+			executePipe(pipeCount, curcmd);
 		}// end if pipeCount
 		else {
 			if (strcmp(argv[0], "alias") == 0) {
@@ -95,9 +117,9 @@ int processCommand(Shell *shell, char *curcmd) {
 				if (!executeCD(argv))
 					perror("");
 			} else if (strcmp(strtok_r(curcmd, "=", &save), "PATH") == 0) {
-				modifyPath(&shell->PATH, save);
+				modifyPath(save);
 			} else{
-				forkIt(shell->PATH, argv);
+				forkIt(argv);
 			}
 
 		}
@@ -105,6 +127,9 @@ int processCommand(Shell *shell, char *curcmd) {
 		argv = NULL;
 	}
 	strcpy(shell->lstcmd, curcmd);
+	if(pipeCount != 0){
+		free(curcmd);
+	}
 	return 0;
 }
 

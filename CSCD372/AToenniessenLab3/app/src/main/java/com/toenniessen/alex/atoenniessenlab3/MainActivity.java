@@ -36,8 +36,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void onToggleClick(View view) {
-        mIsOn = !mIsOn ;
-        TextView tview = (TextView)findViewById(R.id.ButtonStatus) ;
-        tview.setText(mIsOn ? "Button is ON" : "Button is OFF") ;
     }
 }

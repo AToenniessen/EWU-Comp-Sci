@@ -9,10 +9,9 @@
 #include "../Commands/commands.h"
 
 struct ussh {
-	int argc, histCount, histFileCount;
-	char *startDir, *PATH;
-	//getcwd(startDir, 4096);
-	char **argv, curcmd[MAX], lstcmd[MAX];
+	int histCount, histFileCount;
+	char *startDir;
+	char curcmd[MAX], lstcmd[MAX];
 	LinkedList *alias, *history;
 };
 typedef struct ussh Shell;

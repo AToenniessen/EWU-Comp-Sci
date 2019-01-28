@@ -1,6 +1,6 @@
 #include "process.h"
 
-void forkIt(char *file, char **argv) {
+void forkIt(char **argv) {
 	int status;
 	pid_t pid = fork();
 
@@ -28,7 +28,6 @@ void forkIt(char *file, char **argv) {
 	} else {
 		if (bckgrnd)
 			setpgid(0, 0);
-		setenv("PATH", file, 1);
 		if (execvp(argv[0], argv) == -1) {
 			char error[256];
 			strcpy(error, argv[0]);

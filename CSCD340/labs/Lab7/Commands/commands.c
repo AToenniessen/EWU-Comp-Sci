@@ -15,10 +15,10 @@ int executeCD(char **argv) {
 	return changed;
 }
 
-void executePipe(int pipeCount, char *curcmd, char *PATH) {
+void executePipe(int pipeCount, char *curcmd) {
 	char ***args = (char ***) calloc(pipeCount + 2, sizeof(char **));
 	int *r = parsePipe(curcmd, pipeCount, args);
-	pipeIt(PATH, args, pipeCount);
+	pipeIt(args, pipeCount);
 	for (int i = 0; i <= pipeCount + 1; i++) {
 		clean(r[i], args[i]);
 	}
@@ -27,7 +27,7 @@ void executePipe(int pipeCount, char *curcmd, char *PATH) {
 	args = NULL;
 }
 
-char *executeAlias(LinkedList *alias, char *curcmd, char **argv) {
+void executeAlias(LinkedList *alias, char *curcmd, char **argv) {
 	char *token, *save, *c;
 	if (argv[1] != NULL) {
 		token = strtok_r(curcmd, "=", &save);
@@ -38,21 +38,16 @@ char *executeAlias(LinkedList *alias, char *curcmd, char **argv) {
 	} else
 		fprintf(stderr, "\nCannot declare alias\n");
 }
-void modifyPath(char **PATH, char *s) {
-	char *token, *save, *t;
-//	if ((token = strtok_r(s, ":", &save)) == NULL) {
-//		t = (char *) calloc(strlen(save), sizeof(char));
-//		strcpy(t, save);
-//		*PATH = t;
-//	}
-//	else if(strcmp(token, "$PATH") == 0){
-//		if(save[0] != '/')
-//			perror("\ninput PATH not formatted correctly\n");
-//		t = (char *)calloc(strlen(save) + strlen(*PATH) + 2, sizeof(char));
-//		strcpy(t, *PATH);
-//		strcat(t, ":");
-//		strcat(t, save);
-//		*PATH = t;
-//	} else
-//		perror("\nImproper declaration of PATH command\n");
+void modifyPath(char *s) {
+	if(strstr(s, "$PATH")){
+		char *path = getenv("PATH");
+		char *t = (char *)calloc((strlen(path) + strlen(s + 5)) + 1, sizeof(char));
+		strcpy(t, path);
+		strcat(t, s + 5);
+		setenv("PATH", t, 1);
+		free(t);
+	}
+	else{
+		setenv("PATH", s, 1);
+	}
 }

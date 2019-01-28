@@ -12,11 +12,11 @@
 
 int executeCD(char **argv);
 
-char *executeAlias(LinkedList *alias, char *curcmd, char **argv);
+void executeAlias(LinkedList *alias, char *curcmd, char **argv);
 
-void executePipe(int pipeCount, char *curcmd, char *PATH);
+void executePipe(int pipeCount, char *curcmd);
 
 void addCommand(LinkedList *history, char *lstcmd, char *curcmd);
 
-void modifyPath(char **PATH, char *s);
+void modifyPath(char *s);
 
