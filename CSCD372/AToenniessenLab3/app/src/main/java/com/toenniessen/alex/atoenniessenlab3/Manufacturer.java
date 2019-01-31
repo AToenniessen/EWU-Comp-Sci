@@ -6,13 +6,13 @@ public class Manufacturer extends MainActivity {
     private String manufacturer;
     private ArrayList<String> models;
 
-    Manufacturer() {
+    public Manufacturer() {
         manufacturer = getResources().getString(R.string.default_manufacturer);
         models = new ArrayList<>();
         models.add(getResources().getString(R.string.default_model));
     }
 
-    Manufacturer(String make, ArrayList<String> model) {
+    public Manufacturer(String make, ArrayList<String> model) {
         manufacturer = make;
         models = model;
     }
@@ -30,7 +30,7 @@ public class Manufacturer extends MainActivity {
     }
 
     String getModel(int pos) {
-        if (pos > 0 && pos < models.size()) {
+        if (pos >= 0 && pos < models.size()) {
             return models.get(pos);
         }
         return getResources().getString(R.string.model_not_found);

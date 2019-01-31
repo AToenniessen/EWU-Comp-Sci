@@ -2,22 +2,25 @@ package com.toenniessen.alex.atoenniessenlab3;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
-public class MyListAdapter extends BaseExpandableListAdapter {
-    Activity activity;
+public class MyListAdapter extends BaseExpandableListAdapter implements View.OnClickListener{
+    private Activity activity;
     private ArrayList<Manufacturer> manufacturers;
 
-    public MyListAdapter(Activity act, ArrayList<Manufacturer> manufacturerArrayList) {
+    MyListAdapter(Activity act, ArrayList<Manufacturer> manufacturerArrayList) {
         activity = act;
         manufacturers = manufacturerArrayList;
     }
@@ -76,16 +79,14 @@ public class MyListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if(!isExpanded){
+        if(convertView == null){
             LayoutInflater layout = activity.getLayoutInflater();
             convertView = layout.inflate(R.layout.manufacturer, null);
-        }
-        else{
-            convertView = View.inflate(convertView.getContext(), R.layout.manufacturer, parent);
         }
         TextView temp = (TextView) convertView.findViewById(R.id.manufacturer);
         Manufacturer manufacturer = (Manufacturer) getGroup(groupPosition);
         temp.setText(manufacturer.getManufacturer());
+
         return convertView;
     }
 
@@ -95,11 +96,14 @@ public class MyListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layout = activity.getLayoutInflater();
             convertView = layout.inflate(R.layout.model, null);
         }
-        else{
-            convertView = View.inflate(convertView.getContext(), R.layout.model, parent);
-        }
+
         TextView temp = (TextView) convertView.findViewById(R.id.model);
         temp.setText((String) getChild(groupPosition, childPosition));
+        ImageView delete = (ImageView) convertView.findViewById(R.id.delete);
+        delete.setTag(R.id.group_num, groupPosition);
+        delete.setTag(R.id.posn_num, childPosition);
+        delete.setOnClickListener(this);
+
         return convertView;
     }
 
@@ -115,5 +119,25 @@ public class MyListAdapter extends BaseExpandableListAdapter {
     private boolean checkChild(int groupPos, int childPos) {
         Manufacturer temp = manufacturers.get(groupPos);
         return (childPos > -1 && childPos < temp.modelCount());
+    }
+
+    @Override
+    public void onClick(View v) {
+        final int group = (int) v.getTag(R.id.group_num);
+        final int child = (int) v.getTag(R.id.posn_num);
+
+        Snackbar snackbar = Snackbar.make(v, "Are you sure you want to delete?", Snackbar.LENGTH_LONG);
+        snackbar.setAction("CONFIRM", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Manufacturer manufacturer = (Manufacturer) getGroup(group);
+                        manufacturer.removeModel(manufacturer.getModel(child));
+                        notifyDataSetChanged();
+                    }
+                });
+
+        snackbar.show();
+
+
     }
 }

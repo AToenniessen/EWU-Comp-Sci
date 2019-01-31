@@ -6,8 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ListView
+    <ExpandableListView
+        android:id="@+id/customList"
         style="@android:style/Widget.DeviceDefault.ExpandableListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="416dp"
+        android:layout_height="736dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
