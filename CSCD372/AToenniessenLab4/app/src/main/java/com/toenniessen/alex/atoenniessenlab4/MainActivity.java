@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void onToggleClick(View view) {
-
+    public void onClick(View view){
+        SevenSegment cur = findViewById(R.id.sevenSegment);
+        int n = cur.getmCurrentDisplay();
+        cur.setmCurrentDisplay(++n%10);
     }
 }
