@@ -37,6 +37,6 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view){
         SevenSegment cur = findViewById(R.id.sevenSegment);
         int n = cur.getmCurrentDisplay();
-        cur.setmCurrentDisplay(++n%10);
+        cur.setmCurrentDisplay(++n%11);
     }
 }
