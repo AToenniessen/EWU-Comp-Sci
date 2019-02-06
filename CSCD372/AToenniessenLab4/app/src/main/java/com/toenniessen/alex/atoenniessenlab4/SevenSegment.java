@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -90,6 +93,37 @@ public class SevenSegment extends View {
 
         updateCanvas(canvas);
         invalidate();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        Bundle saveState = (Bundle) state;
+
+        mCurrentDisplay = (int) saveState.getSerializable("CurrentDisplay");
+
+        state = saveState.getParcelable("instanceState");
+        super.onRestoreInstanceState(state);
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle saveState = new Bundle();
+        saveState.putParcelable("instanceState", super.onSaveInstanceState());
+        saveState.putSerializable("CurrentDisplay", mCurrentDisplay);
+        return saveState;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int originalwidth = View.MeasureSpec.getSize(widthMeasureSpec);
+        int originalHeight = View.MeasureSpec.getSize(heightMeasureSpec);
+        int calculatedHeight = originalwidth * 2;
+        if(calculatedHeight > originalHeight){
+            setMeasuredDimension(originalHeight / 2, originalHeight);
+        }
+        else
+            setMeasuredDimension(originalwidth, calculatedHeight);
     }
 
     private void drawSegment(Canvas canvas, int rotation, float xTranslate, float yTranslate, boolean isOn) {

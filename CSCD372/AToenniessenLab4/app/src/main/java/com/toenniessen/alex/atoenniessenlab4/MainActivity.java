@@ -35,8 +35,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void onClick(View view){
-        SevenSegment cur = findViewById(R.id.sevenSegment);
-        int n = cur.getmCurrentDisplay();
-        cur.setmCurrentDisplay(++n%11);
+        SevenSegment one = findViewById(R.id.sevenSegment1);
+        SevenSegment two = findViewById(R.id.sevenSegment2);
+        SevenSegment three = findViewById(R.id.sevenSegment3);
+        SevenSegment four = findViewById(R.id.sevenSegment4);
+        SevenSegment five = findViewById(R.id.sevenSegment5);
+
+        int n = one.getmCurrentDisplay();
+
+        one.setmCurrentDisplay(++n%11);
+        two.setmCurrentDisplay(++n%11);
+        three.setmCurrentDisplay(++n%11);
+        four.setmCurrentDisplay(++n%11);
+        five.setmCurrentDisplay(++n%11);
     }
 }
