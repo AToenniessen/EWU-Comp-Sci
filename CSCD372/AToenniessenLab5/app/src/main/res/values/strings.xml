@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AToenniessenLab5</string>
+    <string name="about_string">About</string>
+    <string name="about_data">"Lab 5, Winter 2019, Alexander Toenniessen"</string>
+</resources>
