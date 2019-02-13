@@ -8,12 +8,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
 
+public class MainActivity extends AppCompatActivity implements Observer {
+
+    private ClockView.ViewableClock time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ClockView view = findViewById(R.id.Analog_Clock);
+        time = view.getmTime();
+        time.addObserver(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -32,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void onToggleClick(View view) {
 
+    @Override
+    public void update(Observable o, Object arg) {
+        TextView digital = findViewById(R.id.Digital_Clock);
+        digital.setText(time.toString());
     }
 }
