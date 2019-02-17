@@ -2,4 +2,5 @@
     <string name="app_name">AToenniessenHomeWork1</string>
     <string name="about_string">About</string>
     <string name="about_data">HomeWork 1, Winter 2019, Alexander Toenniessen</string>
+    <string name="invalid">Not a blank space</string>
 </resources>

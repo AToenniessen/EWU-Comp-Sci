@@ -2,30 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/master"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
 
     <LinearLayout
-        android:id="@+id/X_O"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/aspectRatioView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:orientation="horizontal">
+        android:layout_toStartOf="@id/aspectRatioView"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/IV_x"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/x" />
 
         <ImageView
             android:id="@+id/IV_o"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/o" />
     </LinearLayout>
@@ -34,17 +34,20 @@
         android:id="@+id/aspectRatioView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@id/X_O"
-        android:layout_margin="20dp" />
+        android:layout_alignParentEnd="true" />
 
     <TableLayout
+        android:id="@+id/board"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignLeft="@+id/aspectRatioView"
         android:layout_alignTop="@+id/aspectRatioView"
         android:layout_alignRight="@+id/aspectRatioView"
-        android:layout_alignBottom="@+id/aspectRatioView">
+        android:layout_alignBottom="@+id/aspectRatioView"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp">
 
         <TableRow
             android:layout_width="match_parent"
