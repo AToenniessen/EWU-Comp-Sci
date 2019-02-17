@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AToenniessenHW1</string>
+    <string name="app_name">AToenniessenHomeWork1</string>
+    <string name="about_string">About</string>
+    <string name="about_data">HomeWork 1, Winter 2019, Alexander Toenniessen</string>
 </resources>
