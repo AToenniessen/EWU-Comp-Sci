@@ -93,7 +93,7 @@ public class MyListAdapter extends BaseExpandableListAdapter implements View.OnC
         }
 
         TextView temp = (TextView) convertView.findViewById(R.id.model);
-        temp.setText((String) getChild(groupPosition, childPosition));
+        temp.setText(((CarModel) getChild(groupPosition, childPosition)).getName());
         ImageView delete = (ImageView) convertView.findViewById(R.id.delete);
         delete.setTag(R.id.group_num, groupPosition);
         delete.setTag(R.id.posn_num, childPosition);

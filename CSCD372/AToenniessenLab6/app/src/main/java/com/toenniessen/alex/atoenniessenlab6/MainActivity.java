@@ -77,10 +77,19 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
         BufferedReader input;
         try {
             input = new BufferedReader(new InputStreamReader(manager.open(fname)));
-            while(input.ready()){
-                ArrayList<String> lines = new ArrayList<>(Arrays.asList(input.readLine().split(",")));
-                String manufacturer = lines.remove(0);
-                mManufacturer.add(new Manufacturer(manufacturer, new ArrayList<>(lines)));
+            String line;
+            String manufacturer = "";
+            while(input.ready()) {
+                ArrayList<CarModel> models = new ArrayList<>();
+                while ((line = input.readLine()).compareTo("END") != 0) {
+                    ArrayList<String> nextModel = new ArrayList<>(Arrays.asList(line.split(",")));
+                    if(nextModel.size() == 1)
+                        manufacturer = nextModel.remove(0);
+                    else
+                        models.add(new CarModel(nextModel.get(0), nextModel.get(1), nextModel.get(2), getResources().getIdentifier(nextModel.get(0).toLowerCase().replaceAll(" ",""),
+                                "drawable", getPackageName() )));
+                }
+                mManufacturer.add(new Manufacturer(manufacturer, models));
             }
         }catch(Exception e){
             return false;
@@ -91,8 +100,9 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         Manufacturer temp = mManufacturer.get(groupPosition);
         if(temp != null){
+            String name = temp.getModel(childPosition) != null ? temp.getModel(childPosition).getName() : getResources().getString(R.string.model_not_found);
             Toast.makeText(this, "Manufacturer: " + temp.getManufacturer() +
-                            "\nModel: " + temp.getModel(childPosition),
+                            "\nModel: " + name,
                     Toast.LENGTH_SHORT).show();
         }
         return false;

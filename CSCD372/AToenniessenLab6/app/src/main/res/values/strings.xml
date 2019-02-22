@@ -6,4 +6,7 @@
     <string name="default_model">New Model</string>
     <string name="model_not_found">No model of this name exists for this manufacturer.</string>
     <string name="parse_fail">The parse has failed</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
