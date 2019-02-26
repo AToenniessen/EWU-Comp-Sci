@@ -2,7 +2,7 @@ package com.toenniessen.alex.atoenniessenlab6;
 
 import java.io.Serializable;
 
-public class CarModel implements Serializable {
+class CarModel implements Serializable {
     private String name, years_produced, engine_sizes;
     private int drawable_id;
     CarModel(String n, String yp, String es, int di){
@@ -12,7 +12,19 @@ public class CarModel implements Serializable {
         drawable_id = di;
     }
 
-    public String getName() {
+    String getName() {
         return name;
+    }
+
+    public String getEngine_sizes() {
+        return engine_sizes;
+    }
+
+    public int getDrawable_id() {
+        return drawable_id;
+    }
+
+    public String getYears_produced() {
+        return years_produced;
     }
 }

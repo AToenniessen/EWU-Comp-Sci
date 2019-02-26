@@ -2,6 +2,11 @@ package com.toenniessen.alex.atoenniessenlab6;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,32 +25,29 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ExpandableListView.OnChildClickListener, Serializable {
-    private ArrayList<Manufacturer> mManufacturer = new ArrayList<>();
+public class MainActivity extends AppCompatActivity implements Serializable {
+    private SectionPagerAdapter mSectionPagerAdapter;
+    private ViewPager mViewPager;
+    private ArrayList<Manufacturer> mManufacturer;
+    private CarModel mCurModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ExpandableListView listView = findViewById(R.id.customList);
-        listView.setOnChildClickListener(this);
-        MyListAdapter adapter = null;
-
-        if(savedInstanceState == null) {
-            if (parseFile("input.txt")) {
-                adapter = new MyListAdapter(this, mManufacturer);
-            } else {
-                Toast.makeText(this, getResources().getString(R.string.parse_fail),
-                        Toast.LENGTH_SHORT).show();
-            }
+        if(savedInstanceState != null){
+            mManufacturer = (ArrayList<Manufacturer>) savedInstanceState.getSerializable("Manufacturer");
+            mCurModel = (CarModel) savedInstanceState.getSerializable("Model");
         }
         else{
-            mManufacturer = (ArrayList<Manufacturer>) savedInstanceState.getSerializable("Manufacturer");
-            adapter = new MyListAdapter(this, mManufacturer);
+            mManufacturer = new ArrayList<>();
+            if(!parseFile("input.txt"))
+                Toast.makeText(this, getResources().getString(R.string.parse_fail),
+                        Toast.LENGTH_SHORT).show();
         }
-        listView.setAdapter(adapter);
-
+        mSectionPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
+        mViewPager = findViewById(R.id.main_activity_view);
+        mViewPager.setAdapter(mSectionPagerAdapter);
     }
 
 
@@ -70,7 +72,11 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState){
         savedInstanceState.putSerializable("Manufacturer", mManufacturer);
+        savedInstanceState.putSerializable("Model", mCurModel);
         super.onSaveInstanceState(savedInstanceState);
+    }
+    public CarModel getmCurModel(){
+        return mCurModel;
     }
     private boolean parseFile(String fname){
         AssetManager manager = getResources().getAssets();
@@ -96,15 +102,42 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
         }
         return true;
     }
+
     @Override
-    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-        Manufacturer temp = mManufacturer.get(groupPosition);
-        if(temp != null){
-            String name = temp.getModel(childPosition) != null ? temp.getModel(childPosition).getName() : getResources().getString(R.string.model_not_found);
-            Toast.makeText(this, "Manufacturer: " + temp.getManufacturer() +
-                            "\nModel: " + name,
-                    Toast.LENGTH_SHORT).show();
+    public void onBackPressed() {
+        if(mViewPager.getCurrentItem() == 1)
+            mViewPager.setCurrentItem(0);
+        else
+            super.onBackPressed();
+    }
+
+    public void changePage(CarModel model){
+        mCurModel = model;
+        mSectionPagerAdapter.notifyDataSetChanged();
+        mViewPager.setCurrentItem(1);
+    }
+    class SectionPagerAdapter extends FragmentPagerAdapter {
+        public SectionPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
-        return false;
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            if(i == 0)
+                return ListFragment.newInstance(mManufacturer);
+            else
+                return new DetailedList();
+
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 }
