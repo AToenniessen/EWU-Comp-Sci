@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Breakout</string>
+    <string name="about_string">About</string>
+    <string name="about_data">Final Project, Winter 2019, Alexander Toenniessen</string>
+</resources>
