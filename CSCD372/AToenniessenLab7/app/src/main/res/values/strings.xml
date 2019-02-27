@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AToenniessenLab7</string>
+    <string name="about_string">About</string>
+    <string name="about_data">"Lab 7, Winter 2019, Alexander Toenniessen"</string>
+    <string name="settings_string">Settings</string>
+
+    <string-array name="clock_types">
+        <item name="none">None</item>
+        <item name="regular">Regular</item>
+        <item name="roman">Roman</item>
+        <item name="picture">Picture</item>
+    </string-array>
+    <string-array name="clock_type_values">
+        <item name="none">0</item>
+        <item name="regular">1</item>
+        <item name="roman">2</item>
+        <item name="picture">3</item>
+    </string-array>
+
+</resources>

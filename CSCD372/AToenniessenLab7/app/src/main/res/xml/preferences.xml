@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Clock Preferences"
+        app:textAllCaps="true"
+        >
+
+    </PreferenceCategory>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="clock_format"
+        android:textAlignment="center"
+        android:title="24 Hour Format?" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="partial_seconds"
+        android:title="Partial Seconds?" />
+    <ListPreference
+        android:entries="@array/clock_types"
+        android:entryValues="@array/clock_type_values"
+        android:key="clock_faces"
+        android:title="Clock Face Numerals" />
+</PreferenceScreen>
