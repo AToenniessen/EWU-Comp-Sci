@@ -11,15 +11,19 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="clock_format"
+        android:summaryOff="@string/hour_format_off"
+        android:summaryOn="@string/hour_format_on"
         android:textAlignment="center"
-        android:title="24 Hour Format?" />
+        android:title="@string/hour_format_title" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="partial_seconds"
-        android:title="Partial Seconds?" />
+        android:summaryOff="@string/partial_seconds_off"
+        android:summaryOn="@string/partial_seconds_on"
+        android:title="@string/partial_seconds_title" />
     <ListPreference
         android:entries="@array/clock_types"
         android:entryValues="@array/clock_type_values"
-        android:key="clock_faces"
-        android:title="Clock Face Numerals" />
+        android:key="clock_face"
+        android:title="@string/clock_type_title" />
 </PreferenceScreen>

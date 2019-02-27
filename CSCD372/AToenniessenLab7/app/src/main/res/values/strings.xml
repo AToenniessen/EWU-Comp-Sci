@@ -3,6 +3,13 @@
     <string name="about_string">About</string>
     <string name="about_data">"Lab 7, Winter 2019, Alexander Toenniessen"</string>
     <string name="settings_string">Settings</string>
+    <string name="hour_format_off">Nope, Civilian Time</string>
+    <string name="hour_format_on">Yes, Military Time</string>
+    <string name="partial_seconds_off">Cheapo Watch Mode</string>
+    <string name="partial_seconds_on">Expensive Watch Mode</string>
+    <string name="hour_format_title">24 Hour Format?</string>
+    <string name="partial_seconds_title">Partial Seconds?</string>
+    <string name="clock_type_title">Clock Face Numerals</string>
 
     <string-array name="clock_types">
         <item name="none">None</item>
