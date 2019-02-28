@@ -25,5 +25,6 @@
         android:entries="@array/clock_types"
         android:entryValues="@array/clock_type_values"
         android:key="clock_face"
+        android:summary="%s"
         android:title="@string/clock_type_title" />
 </PreferenceScreen>

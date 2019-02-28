@@ -1,7 +1,9 @@
 package com.toenniessen.alex.atoenniessenlab7;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,14 +15,24 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
 
-    private ClockView.ViewableClock time;
+    ClockView mClock;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences temp = PreferenceManager.getDefaultSharedPreferences(this);
+        mClock.updatePreferences(temp.getBoolean("clock_format", false),
+                temp.getBoolean("partial_seconds", false),
+                temp.getString("clock_face", getResources().getStringArray(R.array.clock_types)[0]));
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ClockView view = findViewById(R.id.Analog_Clock);
-        time = view.getmTime();
-        time.addObserver(this);
+        mClock = findViewById(R.id.Analog_Clock);
+        mClock.getmTime().addObserver(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,6 +58,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         TextView digital = findViewById(R.id.Digital_Clock);
-        digital.setText(time.toString());
+        digital.setText(mClock.getmTime().toString());
     }
 }
