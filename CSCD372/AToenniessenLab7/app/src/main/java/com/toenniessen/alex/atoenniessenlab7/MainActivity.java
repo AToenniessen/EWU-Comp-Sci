@@ -1,7 +1,9 @@
 package com.toenniessen.alex.atoenniessenlab7;
 
+import android.animation.TimeAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +17,9 @@ import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity implements Observer {
 
-    ClockView mClock;
+    private ClockView mClock;
+    private TimeAnimator mTimer;
+
 
     @Override
     protected void onResume() {
@@ -24,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         mClock.updatePreferences(temp.getBoolean("clock_format", false),
                 temp.getBoolean("partial_seconds", false),
                 temp.getString("clock_face", getResources().getStringArray(R.array.clock_types)[0]));
-
+        mTimer.start();
     }
 
     @Override
@@ -33,7 +37,15 @@ public class MainActivity extends AppCompatActivity implements Observer {
         setContentView(R.layout.activity_main);
         mClock = findViewById(R.id.Analog_Clock);
         mClock.getmTime().addObserver(this);
+        initializeTimer();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mTimer.pause();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 // This adds items to the action bar if it is present.
@@ -59,5 +71,20 @@ public class MainActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) {
         TextView digital = findViewById(R.id.Digital_Clock);
         digital.setText(mClock.getmTime().toString());
+    }
+    private void initializeTimer() {
+        mTimer = new TimeAnimator();
+        mTimer.setTimeListener(new TimeAnimator.TimeListener() {
+            @Override
+            public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
+                if (totalTime % 100 == 0) {
+                    mClock.invalidate();
+                    if(totalTime % 1000 == 0) {
+                        mClock.playClip();
+                    }
+                }
+            }
+        });
+        mTimer.start();
     }
 }

@@ -9,10 +9,15 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.media.ToneGenerator;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Observable;
@@ -26,40 +31,51 @@ public class ClockView extends View {
     private final float[] minuteHandXY = {originX, originY + 5, 155, 150, 150, 30, 145, 150};
     private final float[] secondHandXY = {originX - 1, originY, originX + 1, originY,
             originX + 1, (float) (originY - (clockRadius * .96)), originX - 1, (float) (originY - (clockRadius * .96))};
-    private TimeAnimator mTimer;
     private Path mHourHand = new Path(), mMinuteHand = new Path(), mSecondHand = new Path();
     private final ViewableClock mTime = new ViewableClock(new GregorianCalendar());
+    private MediaPlayer mMedia;
     private boolean mFormat, mPartial;
     private String mStyle;
 
     public ClockView(Context context) {
         super(context);
-        initializeTimer();
     }
 
     public ClockView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        initializeTimer();
     }
 
     public ClockView(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
-        initializeTimer();
     }
 
-    public ViewableClock getmTime() {
+    ViewableClock getmTime() {
         return mTime;
     }
 
-    private void initializeTimer() {
-        mTimer = new TimeAnimator();
-        mTimer.setTimeListener(new TimeAnimator.TimeListener() {
-            @Override
-            public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
-                invalidate();
+    MediaPlayer getmMedia() {
+        mMedia.seekTo(0);
+        return mMedia;
+    }
+
+    void playClip() {
+        if (mMedia != null){
+            if(mMedia.isPlaying()) {
+                mMedia.pause();
+                mMedia.seekTo(0);
             }
-        });
-        mTimer.start();
+            mMedia.start();
+        } else {
+            mMedia = MediaPlayer.create(getContext(), R.raw.click);
+            mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.seekTo(0);
+                }
+            });
+            mMedia.setVolume(1f, 1f);
+            mMedia.start();
+        }
     }
 
     @Override
@@ -124,45 +140,52 @@ public class ClockView extends View {
         canvas.drawCircle(originX, originY, clockRadius, paint);
         canvas.restore();
         canvas.save();
-        for(int i = 0; i < 12; i++){
+        for (int i = 0; i < 12; i++) {
             canvas.drawLine(originX, originY - clockRadius, originX, originY - (clockRadius - 5), paint);
             canvas.rotate(6, originX, originY);
-            for(int j = 0; j < 4; j++){
+            for (int j = 0; j < 4; j++) {
                 canvas.drawLine(originX, originY - clockRadius, originX, originY - (clockRadius - 2), paint);
                 canvas.rotate(6, originX, originY);
             }
         }
         canvas.restore();
     }
-    private void drawCustomClockFace(Canvas canvas, String res){
+
+    private void drawCustomClockFace(Canvas canvas, String res) {
         Bitmap bm = null;
-        switch (res){
-            case "1" :
+        switch (res) {
+            case "1":
                 bm = BitmapFactory.decodeResource(getResources(), R.drawable.regular);
                 break;
-            case "2" :
+            case "2":
                 bm = BitmapFactory.decodeResource(getResources(), R.drawable.roman);
                 break;
-            case "3" :
+            case "3":
                 bm = BitmapFactory.decodeResource(getResources(), R.drawable.picture);
                 break;
+
         }
-        if(bm != null) {
+        if (bm != null) {
             canvas.save();
-            canvas.drawBitmap(bm, new Matrix(), null);
-            canvas.scale((float) getWidth() / containerWidth, (float) getHeight() / containerHeight);
+            canvas.translate(10, 10);
+            canvas.drawBitmap(bm, null,
+                    new Rect(0, 0, clockRadius * 2, clockRadius * 2), null);
             canvas.restore();
+            if (res.equals("3"))
+                drawClockFace(canvas);
         }
+        else
+            drawClockFace(canvas);
     }
 
     private void updateCanvas(Canvas canvas) {
-        if(mStyle.equals(getResources().getStringArray(R.array.clock_type_values)[0]))
+        if (mStyle.equals(getResources().getStringArray(R.array.clock_type_values)[0]))
             drawClockFace(canvas);
         else
             drawCustomClockFace(canvas, mStyle);
         mTime.setClock(new GregorianCalendar());
 
-        float secondRotation = mMinSecDegrees * (mTime.getSecond() + mTime.getMillisecond() / 1000),
+        float secondRotation = mMinSecDegrees * (mTime.getSecond() + (mTime.getMillisecond() / 1000)),
                 minuteRotation = (mMinSecDegrees * mTime.getMinute()) + (mMinSecDegrees * (secondRotation / 360)),
                 hourRotation = (mHourDegrees * mTime.getHour()) + (mHourDegrees * (minuteRotation / 360));
 
@@ -181,12 +204,10 @@ public class ClockView extends View {
 
     class ViewableClock extends Observable {
         private float hour, minute, second, millisecond;
+        private String am_pm = "";
 
         ViewableClock(GregorianCalendar date) {
-            hour = (mFormat) ? date.get(Calendar.HOUR_OF_DAY) : date.get(Calendar.HOUR);
-            minute = date.get(Calendar.MINUTE);
-            second = date.get(Calendar.SECOND);
-            millisecond = date.get(Calendar.MILLISECOND);
+            setClock(date);
         }
 
         float getHour() {
@@ -207,15 +228,16 @@ public class ClockView extends View {
 
         @Override
         public String toString() {
-            return (mPartial) ? (int) hour + ":" + (int) minute + ":" + (int) second + ":" + (int) millisecond / 100 : (int) hour + ":" + (int) minute + ":" + (int) second;
+            return (int) hour + ":" + (int) minute + ":" + (int) second + ":" + ((mPartial) ? (int) millisecond / 100 : "") + ((mFormat) ? "" : am_pm);
         }
 
 
         void setClock(GregorianCalendar date) {
-            hour = date.get(Calendar.HOUR_OF_DAY);
+            hour = (mFormat) ? date.get(Calendar.HOUR_OF_DAY) : date.get(Calendar.HOUR);
             minute = date.get(Calendar.MINUTE);
             second = date.get(Calendar.SECOND);
             millisecond = date.get(Calendar.MILLISECOND);
+            am_pm = (date.get(Calendar.AM_PM) == Calendar.AM) ? " AM" : " PM";
             setChanged();
             notifyObservers();
         }
