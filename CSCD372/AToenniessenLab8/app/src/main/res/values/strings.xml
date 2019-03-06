@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AToenniessenLab8</string>
-    <string name="title_activity_maps">Map</string>
     <string name="about_string">About</string>
     <string name="about_data">Lab 8, Winter 2019, Alexander Toenniessen</string>
+    <string name="button_marker">Mark +/-</string>
+    <string name="button_change_type">Change Type</string>
 </resources>
