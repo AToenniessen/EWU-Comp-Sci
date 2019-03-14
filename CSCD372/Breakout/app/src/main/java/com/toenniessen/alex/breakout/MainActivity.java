@@ -4,17 +4,32 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean mIsOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ((GameView)findViewById(R.id.gameView)).onInit(20, 4, 0, 5);
+        findViewById(R.id.left).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //v.performClick();
+                return ((GameView)findViewById(R.id.gameView)).changeDirection(R.id.left, event);
+            }
+        });
+        findViewById(R.id.right).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //v.performClick();
+                return ((GameView)findViewById(R.id.gameView)).changeDirection(R.id.right, event);
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

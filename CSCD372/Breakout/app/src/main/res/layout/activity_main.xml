@@ -6,8 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.toenniessen.alex.breakout.GameView
-        android:id="@+id/gameView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.toenniessen.alex.breakout.GameView
+            android:id="@+id/gameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <View android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/simple_circle"
+                android:id="@+id/left"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true" />
+            <View android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="@drawable/simple_circle"
+                android:id="@+id/right"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
