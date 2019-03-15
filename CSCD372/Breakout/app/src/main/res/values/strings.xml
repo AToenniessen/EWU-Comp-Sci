@@ -2,4 +2,12 @@
     <string name="app_name">Breakout</string>
     <string name="about_string">About</string>
     <string name="about_data">Final Project, Winter 2019, Alexander Toenniessen</string>
+    <string name="level">Level = </string>
+    <string name="balls">Balls = </string>
+    <string name="score">Score = </string>
+    <string name="bricks">Bricks = </string>
+    <string name="confirm">Confirm?</string>
+    <string name="lost">LOW FUEL, BALLS ARE EMPTY. Would you like to play again?</string>
+    <string name="brick_preference">Initial Brick Count (1\-100)</string>
+    <string name="brick_summary">How many bricks per level</string>
 </resources>

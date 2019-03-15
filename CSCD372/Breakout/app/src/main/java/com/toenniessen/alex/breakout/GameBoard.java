@@ -16,11 +16,29 @@ class GameBoard {
     private final Paint mPaint = new Paint();
 
     private float mBrickWidth, mBrickHeight;
-    private int mBrickCnt;
+    private int mBrickCnt, mBricksLeft, mScore = 0, mLevel = 1;
+
+    int getmBricksLeft() {
+        return mBricksLeft;
+    }
+
+    int getmScore() {
+        return mScore;
+    }
+    int getmLevel(){
+        return mLevel;
+    }
+    boolean checkWinner(){
+        if(mBricksLeft == 0)
+            mLevel++;
+        return mBricksLeft == 0;
+    }
 
     void setmBrickCnt(int mBrickCnt) {
         this.mBrickCnt = mBrickCnt;
+        this.mBricksLeft = mBrickCnt;
     }
+
 
     void setmBrickHP(int mBrickHP) {
         this.mBrickHP = mBrickHP;
@@ -38,6 +56,7 @@ class GameBoard {
     private void decrementHealth(int x, int y) {
         if (--mGrid[x][y] == 0) {
             mHitBoxes[x][y] = null;
+            mBricksLeft--;
         }
     }
 
@@ -54,6 +73,8 @@ class GameBoard {
     }
 
     void resetBoard() {
+        mScore = 0;
+        mBricksLeft = mBrickCnt;
         clearBoard();
         int cnt = 0;
         while (cnt < mBrickCnt) {
@@ -102,19 +123,13 @@ class GameBoard {
         mBrickPath.close();
     }
 
-    float getmBrickWidth() {
-        return mBrickWidth;
-    }
-
-    float getmBrickHeight() {
-        return mBrickHeight;
-    }
     RectF ballCollison(RectF ball) {
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 RectF cell = mHitBoxes[x][y];
                 if (cell != null && ball.intersect(cell)) {
                     decrementHealth(x, y);
+                    mScore++;
                     return cell;
                 }
             }

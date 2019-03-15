@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SeniorProject/Mentor Documentation/Project_Deliverable/html/phpsaml" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SeniorProject/SeniorProject" vcs="Git" />
   </component>
 </project>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Breakout Settings"
+        app:textAllCaps="true"
+        >
+        <EditTextPreference
+            android:defaultValue="5"
+            android:key="brick_preference"
+            android:selectAllOnFocus="true"
+            android:singleLine="false"
+            android:summary="@string/brick_summary"
+            android:title="@string/brick_preference" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

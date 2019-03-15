@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 
 class Paddle {
     private final int mContainerWidth = 1000, mContainerHeight = 1000;
-    private float mPaddleX, mPaddleY, mPaddleSen = 0, mPaddleWidth, mPaddleHeight;
+    private float mPaddleX, mPaddleY, mStartX, mStartY, mPaddleSen = 0, mPaddleWidth, mPaddleHeight;
     private PaddleMovement mPaddleDirection = PaddleMovement.STOPPED;
     private float[] mPaddleDim;
     private RectF mHitBox = new RectF();
@@ -25,6 +25,8 @@ class Paddle {
 
         mPaddleX = (mContainerWidth - mPaddleWidth) / 2;
         mPaddleY = mContainerHeight - 50;
+        mStartX = mPaddleX;
+        mStartY = mPaddleY;
         initPath();
         mPaint.setColor(Color.GRAY);
     }
@@ -34,6 +36,10 @@ class Paddle {
         mPaddlePath.lineTo(mPaddleDim[4], mPaddleDim[5]);
         mPaddlePath.lineTo(mPaddleDim[6], mPaddleDim[7]);
         mPaddlePath.close();
+    }
+    void resetPaddle(){
+        mPaddleX = mStartX;
+        mPaddleY = mStartY;
     }
 
     void setmPaddleSen(float mPaddleSen) {
