@@ -1,7 +1,9 @@
 package com.toenniessen.alex.atoenniessenextracredit;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 
 import com.dropbox.chooser.android.DbxChooser;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +22,24 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements ExpandableListView.OnChildClickListener, Serializable {
     private ArrayList<Manufacturer> mManufacturer = new ArrayList<>();
     static final int DBX_CHOOSER_REQUEST = 0;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(data != null){
+                try {
+                    mManufacturer.clear();
+                    parseFile(this.getContentResolver().openInputStream((new DbxChooser.Result(data)).getLink()));
+                    ((ExpandableListView)findViewById(R.id.customList)).setAdapter(new MyListAdapter(this, mManufacturer));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, getResources().getString(R.string.parse_fail),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +53,11 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
         MyListAdapter adapter = null;
 
         if(savedInstanceState == null) {
-            if (parseFile("input.txt")) {
+            try {
+                parseFile(getResources().getAssets().open("input.txt"));
                 adapter = new MyListAdapter(this, mManufacturer);
-            } else {
+            } catch (IOException e) {
+                e.printStackTrace();
                 Toast.makeText(this, getResources().getString(R.string.parse_fail),
                         Toast.LENGTH_SHORT).show();
             }
@@ -42,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
             mManufacturer = (ArrayList) savedInstanceState.getSerializable("Manufacturer");
             adapter = new MyListAdapter(this, mManufacturer);
         }
+
         listView.setAdapter(adapter);
 
         findViewById(R.id.drop_button).setOnClickListener(new View.OnClickListener() {
@@ -77,11 +102,8 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
         savedInstanceState.putSerializable("Manufacturer", mManufacturer);
         super.onSaveInstanceState(savedInstanceState);
     }
-    private boolean parseFile(String fname){
-        AssetManager manager = getResources().getAssets();
-        InputStream input;
+    private void parseFile(InputStream input){
         try {
-            input = manager.open(fname);
             ArrayList<Character> letters = new ArrayList<>();
             String manufacturer = "";
             ArrayList<String> model = new ArrayList<>();
@@ -105,9 +127,8 @@ public class MainActivity extends AppCompatActivity implements ExpandableListVie
                     }
                 }
         }catch(Exception e){
-            return false;
+            e.printStackTrace();
         }
-        return true;
     }
     private String convertWord(ArrayList<Character> letters){
         StringBuilder word = new StringBuilder();
