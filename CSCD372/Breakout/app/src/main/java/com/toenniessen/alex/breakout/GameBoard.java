@@ -25,13 +25,18 @@ class GameBoard {
     int getmScore() {
         return mScore;
     }
+    void setmLevel(int i){
+        mLevel = i;
+    }
     int getmLevel(){
         return mLevel;
     }
     boolean checkWinner(){
-        if(mBricksLeft == 0)
+        if(mBricksLeft == 0 && mBrickCnt != 0) {
             mLevel++;
-        return mBricksLeft == 0;
+            return true;
+        }
+        return false;
     }
 
     void setmBrickCnt(int mBrickCnt) {
@@ -57,6 +62,7 @@ class GameBoard {
         if (--mGrid[x][y] == 0) {
             mHitBoxes[x][y] = null;
             mBricksLeft--;
+            mScore++;
         }
     }
 
@@ -129,7 +135,6 @@ class GameBoard {
                 RectF cell = mHitBoxes[x][y];
                 if (cell != null && ball.intersect(cell)) {
                     decrementHealth(x, y);
-                    mScore++;
                     return cell;
                 }
             }

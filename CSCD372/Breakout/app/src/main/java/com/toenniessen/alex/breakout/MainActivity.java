@@ -1,6 +1,7 @@
 package com.toenniessen.alex.breakout;
 
 import android.animation.TimeAnimator;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -56,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-//        SharedPreferences temp = PreferenceManager.getDefaultSharedPreferences(this);
-//        mClock.updatePreferences(temp.getBoolean("clock_format", false),
-//                temp.getBoolean("partial_seconds", false),
-//                temp.getString("clock_face", getResources().getStringArray(R.array.clock_types)[0]));
-        //mTimer.start();
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        SharedPreferences temp = PreferenceManager.getDefaultSharedPreferences(this);
+        mGame.onPreferenceChanged(temp.getInt("brick_count", 5),
+                temp.getInt("brick_hp", 1), temp.getInt("ball_count", 1),
+                temp.getInt("paddle_sens", 10));
+        //mGame.startTimer();
     }
     @Override
     protected void onPause() {
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,getResources().getString(R.string.about_data),
                     Toast.LENGTH_SHORT).show();
             return true;
+        }
+        else if(id == R.id.action_settings){
+            MainActivity.this.startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

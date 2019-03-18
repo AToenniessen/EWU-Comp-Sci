@@ -6,13 +6,59 @@
         android:title="Breakout Settings"
         app:textAllCaps="true"
         >
-        <EditTextPreference
-            android:defaultValue="5"
-            android:key="brick_preference"
-            android:selectAllOnFocus="true"
-            android:singleLine="false"
+        <!--<EditTextPreference-->
+            <!--android:inputType="numberDecimal"-->
+            <!--android:digits="0123456789"-->
+            <!--android:defaultValue="5"-->
+            <!--android:key="brick_preference"-->
+            <!--android:selectAllOnFocus="true"-->
+            <!--android:singleLine="false"-->
+            <!--android:summary="@string/brick_summary"-->
+            <!--android:title="@string/brick_preference" />-->
+        <com.toenniessen.alex.breakout.NumberPickerPreference
+            android:id="@+id/brick_number_picker"
+            android:key="brick_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:summary="@string/brick_summary"
-            android:title="@string/brick_preference" />
+            android:title="@string/brick_preference"
+            min="1"
+            max="100"
+            default="5"
+            />
+        <com.toenniessen.alex.breakout.NumberPickerPreference
+            android:id="@+id/brickHP_number_picker"
+            android:key="brick_hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:summary="@string/brickHP_summary"
+            android:title="@string/brickHP_preference"
+            min="1"
+            max="4"
+            default="1"
+            />
+        <com.toenniessen.alex.breakout.NumberPickerPreference
+            android:id="@+id/ball_number_picker"
+            android:key="ball_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:summary="@string/ball_summary"
+            android:title="@string/ball_preference"
+            min="1"
+            max="4"
+            default="1"
+            />
+        <com.toenniessen.alex.breakout.NumberPickerPreference
+            android:id="@+id/paddle_number_picker"
+            android:key="paddle_sens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:summary="@string/paddle_summary"
+            android:title="@string/paddle_preference"
+            min="10"
+            max="20"
+            default="10"
+            />
     </PreferenceCategory>
 
 </PreferenceScreen>

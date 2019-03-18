@@ -5,21 +5,27 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.ToneGenerator;
 import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameView extends View {
     private final int mContainerWidth = 1000, mContainerHeight = 1000;
+    private MediaPlayer mBounce, mLooseBall;
+
     private int mBallCnt;
 
     private Ball mBall;
     private Paddle mPaddle;
     private GameBoard mBoard;
 
-    private final TimeAnimator mTimer = new TimeAnimator();
+    private TimeAnimator mTimer = new TimeAnimator();
 
 
     public GameView(Context context) {
@@ -42,8 +48,31 @@ public class GameView extends View {
         updateLevel();
         updateScore();
         initializeTimer();
+        if(mLooseBall == null){
+            mLooseBall = MediaPlayer.create(getContext(), R.raw.loose);
+            mLooseBall.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mLooseBall.pause();
+                    mLooseBall.seekTo(0);
+                }
+            });
+            mLooseBall.setVolume(1f, 1f);
+        }
+        if(mBounce == null){
+            mBounce = MediaPlayer.create(getContext(), R.raw.bounce);
+            mBounce.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mBounce.pause();
+                    mBounce.seekTo(0);
+                }
+            });
+            mBounce.setVolume(1f, 1f);
+        }
 
         onPreferenceChanged(bCnt, bHP, blCnt, pSens);
+
     }
 
     void updateLevel() {
@@ -51,34 +80,56 @@ public class GameView extends View {
     }
 
     void updateScore() {
-        ((TextView) this.getRootView().findViewById(R.id.score)).setText((getResources().getString(R.string.score) + " " + mBoard.getmScore()));
+        if(mBoard.checkWinner()){
+            Toast.makeText(getContext(),getResources().getString(R.string.win), Toast.LENGTH_LONG).show();
+            resetGame();
+            mBall.increaseSpeed();
+        }
+
+            ((TextView) this.getRootView().findViewById(R.id.score)).setText((getResources().getString(R.string.score) + " " + mBoard.getmScore()));
     }
 
     void updateBricks() {
         ((TextView) this.getRootView().findViewById(R.id.bricks)).setText((getResources().getString(R.string.bricks) + " " + mBoard.getmBricksLeft()));
     }
-    void updateBalls(){
-        if(mBall.getmBallCnt() < 0){
+
+    void updateBalls() {
+        if (mBall.getmBallCnt() < 0) {
             mBall.setmBallCnt(0);
             invalidate();
             Snackbar snackbar = Snackbar.make(this, getResources().getString(R.string.lost), Snackbar.LENGTH_INDEFINITE);
             snackbar.setAction(getResources().getString(R.string.confirm), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mBall.setmBallCnt(mBallCnt);
-                    mBoard.resetBoard();
-                    mPaddle.resetPaddle();
-                    startTimer();
-                    pauseTimer();
-                    updateBalls();
-                    updateScore();
-                    updateBricks();
+                    restartGame();
                 }
             });
 
             snackbar.show();
         }
         ((TextView) this.getRootView().findViewById(R.id.balls)).setText((getResources().getString(R.string.balls) + " " + mBall.getmBallCnt()));
+
+    }
+    void restartGame(){
+        mBall.resetSpeed();
+        mBall.setmBallCnt(mBallCnt);
+        mBoard.setmLevel(1);
+        resetGame();
+    }
+    void resetGame(){
+        invalidate();
+        mBoard.resetBoard();
+        mPaddle.resetPaddle();
+        updateLevel();
+        updateBricks();
+        updateScore();
+        if(mBall != null) {
+            mBall.resetBall();
+            mBall.setmBallCnt(mBallCnt);
+            updateBalls();
+        }
+        startTimer();
+        pauseTimer();
     }
 
     boolean changeDirection(int dir, MotionEvent event) {
@@ -90,18 +141,16 @@ public class GameView extends View {
         mBoard.setmBrickHP(bHP);
         mBallCnt = blCnt;
         mPaddle.setmPaddleSen(pSens);
-        mBoard.resetBoard();
-        updateBricks();
+        resetGame();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         float mScaledX = (float) getWidth() / mContainerWidth;
         float mScaledY = (float) getHeight() / mContainerHeight;
         if (mBall == null) {
-            mBall = new Ball((int) (75 * mScaledY), (int) (75 * mScaledX), ((mContainerWidth - ((75 * mScaledX))) / 2),
-                    mContainerHeight - 150, 5, BitmapFactory.decodeResource(getResources(), R.drawable.game_ball));
+            mBall = new Ball((int) (75 * mScaledY), (int) (75 * mScaledX), mContainerWidth,
+                    mContainerHeight, 5, BitmapFactory.decodeResource(getResources(), R.drawable.game_ball));
             mBall.setmBallCnt(mBallCnt);
             updateBalls();
         }
@@ -139,22 +188,35 @@ public class GameView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
+    void playClip(MediaPlayer media){           //FIX SOUNDS OR JUST TURN IN
+        if(media.isPlaying()){
+            media.pause();
+            media.seekTo(0);
+        }
+        media.start();
+    }
+
     private void checkCollision() {
         RectF ball = mBall.getmHitBox();
         RectF paddle = mPaddle.getmHitBox();
         RectF cell;
         if ((cell = mBoard.ballCollison(ball)) != null) {
+            playClip(mBounce);
             mBall.bounceBrick(cell);
             updateScore();
             updateBricks();
         } else if (ball.intersect(paddle)) {
+            playClip(mBounce);
             mBall.bounce(mPaddle.getmPaddleX(), mPaddle.getmPaddleWidth());
         } else {
             if (!mBall.bounceWall(mContainerWidth, mContainerHeight)) {
+                playClip(mLooseBall);
                 updateBalls();
                 mPaddle.resetPaddle();
                 pauseTimer();
             }
+            else
+                playClip(mBounce);
         }
     }
 
@@ -162,7 +224,8 @@ public class GameView extends View {
         mTimer.setTimeListener(new TimeAnimator.TimeListener() {
             @Override
             public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
-                invalidate();
+
+                    invalidate();
             }
         });
     }

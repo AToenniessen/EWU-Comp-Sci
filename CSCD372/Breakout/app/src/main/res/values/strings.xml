@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Breakout</string>
     <string name="about_string">About</string>
+    <string name="settings_string">Settings</string>
     <string name="about_data">Final Project, Winter 2019, Alexander Toenniessen</string>
     <string name="level">Level = </string>
     <string name="balls">Balls = </string>
@@ -8,6 +9,13 @@
     <string name="bricks">Bricks = </string>
     <string name="confirm">Confirm?</string>
     <string name="lost">LOW FUEL, BALLS ARE EMPTY. Would you like to play again?</string>
+    <string name="win">Congratulations, Moving to Next Level</string>
     <string name="brick_preference">Initial Brick Count (1\-100)</string>
     <string name="brick_summary">How many bricks per level</string>
+    <string name="brickHP_preference">Hits to Remove Brick (1\-4)</string>
+    <string name="brickHP_summary">How many hits are required to remove a brick</string>
+    <string name="ball_preference">Balls Per Level (1\-4)</string>
+    <string name="ball_summary">How many balls you get</string>
+    <string name="paddle_preference">Paddle Sensitivity (10\-20)</string>
+    <string name="paddle_summary">Paddle motion sensitivity</string>
 </resources>

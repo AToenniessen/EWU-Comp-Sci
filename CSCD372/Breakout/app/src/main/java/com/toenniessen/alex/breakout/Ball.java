@@ -9,22 +9,23 @@ import android.widget.TextView;
 class Ball {
     private float mBallX, mStartX;
     private float mBallY, mStartY;
-    private float mBallSpeed;
+    private float mBallSpeed, mBallInitialSpeed;
     private float mBallXVelocity;
     private float mBallYVelocity;
     private float mBallXRadius, mBallYRadius;
-    private int mBallCnt;
+    private int mBallCnt = 0;
     private RectF mHitBox = new RectF();
     private final Bitmap mBallMap;
     private final Paint mPaint = new Paint();
-    Ball(float xR, float yR, float x, float y, float s, Bitmap bm){
+    Ball(float xR, float yR, float w, float h, float s, Bitmap bm){
         mBallXRadius = xR;
         mBallYRadius = yR;
-        mBallX = x;
-        mStartX = x;
-        mBallY = y;
-        mStartY = y;
+        mBallX = (w - mBallXRadius) / 2;
+        mStartX = mBallX;
+        mBallY = (h - mBallYRadius) - 75;
+        mStartY = mBallY;
         mBallSpeed = s ;
+        mBallInitialSpeed = mBallSpeed;
         mBallXVelocity = 0;
         mBallYVelocity = mBallSpeed;
         mBallMap = Bitmap.createScaledBitmap(bm, (int)mBallXRadius, (int)mBallYRadius, false);
@@ -38,8 +39,11 @@ class Ball {
         return mBallCnt;
     }
 
-    public void setmBallSpeed(float mBallSpeed) {
-        this.mBallSpeed = mBallSpeed;
+    void increaseSpeed() {
+        this.mBallSpeed = (float)(this.mBallSpeed * 1.33);
+    }
+    void resetSpeed(){
+        mBallSpeed = mBallInitialSpeed;
     }
     void bounce(float x, float width){
         float bCenterX = mBallX + (mBallXRadius / 2);
