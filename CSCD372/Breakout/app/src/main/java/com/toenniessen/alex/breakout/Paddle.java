@@ -7,7 +7,9 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 
-class Paddle {
+import java.io.Serializable;
+
+class Paddle implements Serializable {
     private final int mContainerWidth = 1000, mContainerHeight = 1000;
     private float mPaddleX, mPaddleY, mStartX, mStartY, mPaddleSen = 0, mPaddleWidth, mPaddleHeight;
     private PaddleMovement mPaddleDirection = PaddleMovement.STOPPED;
@@ -93,7 +95,37 @@ class Paddle {
         canvas.drawPath(mPaddlePath, mPaint);
         canvas.restore();
     }
+    SerializablePaddle save(){
+        return new SerializablePaddle(mPaddleX, mPaddleY, mPaddleSen);
+    }
+    void load(SerializablePaddle save){
+        mPaddleX = save.getCurX();
+        mPaddleY = save.getCurY();
+        mPaddleSen = save.getSens();
+        mHitBox.set((int)(mPaddleX), (int)(mPaddleY),
+                (int)(mPaddleX + (mPaddleWidth)), (int)(mPaddleY + (mPaddleHeight)));
+    }
 }
-enum PaddleMovement {
+enum PaddleMovement{
     STOPPED, LEFT, RIGHT
+}
+class SerializablePaddle implements Serializable{
+    float curX, curY, sens;
+    SerializablePaddle(float x, float y, float s){
+        curX = x;
+        curY = y;
+        sens = s;
+    }
+
+    public float getCurX() {
+        return curX;
+    }
+
+    public float getCurY() {
+        return curY;
+    }
+
+    public float getSens() {
+        return sens;
+    }
 }

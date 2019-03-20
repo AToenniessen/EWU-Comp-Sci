@@ -6,37 +6,64 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.widget.TextView;
 
-class Ball {
+import java.io.Serializable;
+
+class Ball implements Serializable {
     private float mBallX, mStartX;
     private float mBallY, mStartY;
     private float mBallSpeed, mBallInitialSpeed;
     private float mBallXVelocity;
     private float mBallYVelocity;
-    private float mBallXRadius, mBallYRadius;
-    private int mBallCnt = 0;
+    private float mBallXRadius = 0, mBallYRadius = 0, mWidth, mHeight;
+    private int mBallCnt = 0, mCurBalls = 0;
     private RectF mHitBox = new RectF();
-    private final Bitmap mBallMap;
+    private Bitmap mBallMap;
     private final Paint mPaint = new Paint();
-    Ball(float xR, float yR, float w, float h, float s, Bitmap bm){
-        mBallXRadius = xR;
-        mBallYRadius = yR;
-        mBallX = (w - mBallXRadius) / 2;
-        mStartX = mBallX;
-        mBallY = (h - mBallYRadius) - 75;
-        mStartY = mBallY;
+    Ball(float w, float h, float s, Bitmap bm){
+        mWidth = w;
+        mHeight = h;
         mBallSpeed = s ;
         mBallInitialSpeed = mBallSpeed;
         mBallXVelocity = 0;
         mBallYVelocity = mBallSpeed;
-        mBallMap = Bitmap.createScaledBitmap(bm, (int)mBallXRadius, (int)mBallYRadius, false);
+        mBallMap = bm;
+    }
+
+    void setmBallXRadius(float mBallXRadius) {
+        this.mBallXRadius = mBallXRadius;
+        if(mStartX == 0){
+            mStartX = (mWidth - mBallXRadius) / 2;
+        }
+        if(mBallX == 0) {
+            mBallX = mStartX;
+        }
+    }
+
+    void setmBallYRadius(float mBallYRadius) {
+        this.mBallYRadius = mBallYRadius;
+        if(mStartY == 0) {
+            mStartY = (mHeight - mBallYRadius) - 75;
+        }
+        if(mBallY == 0) {
+            mBallY = mStartY;
+        }
+
+    }
+    void setmBallMap(){
+        mBallMap = Bitmap.createScaledBitmap(mBallMap, (int)mBallXRadius, (int)mBallYRadius, false);
+
+    }
+    boolean mBallRadiusSet(){
+        return mBallXRadius != 0 && mBallYRadius != 0;
     }
 
     void setmBallCnt(int mBallCnt) {
         this.mBallCnt = mBallCnt;
+        mCurBalls = mBallCnt;
     }
 
-    int getmBallCnt() {
-        return mBallCnt;
+    int getmCurBalls() {
+        return mCurBalls;
     }
 
     void increaseSpeed() {
@@ -74,28 +101,27 @@ class Ball {
              mBallXVelocity = -mBallXVelocity;
         }
     }
-    boolean bounceWall(int w, int h){
-        if(mHitBox.left <= 0){
-            mBallX = mBallX + 5;
-            mBallXVelocity = -mBallXVelocity;
-            return true;
+    int bounceWall(int w, int h){
+        if(mBallCnt > 0) {
+            if (mHitBox.left <= 0) {
+                mBallX = mBallX + 5;
+                mBallXVelocity = -mBallXVelocity;
+                return 1;
+            } else if (mHitBox.top <= 0) {
+                mBallY = mBallY + 5;
+                mBallYVelocity = -mBallYVelocity;
+                return 1;
+            } else if (mHitBox.right >= w) {
+                mBallY = mBallY - 5;
+                mBallXVelocity = -mBallXVelocity;
+                return 1;
+            } else if (mHitBox.bottom >= h + mBallYRadius) {
+                mCurBalls--;
+                //resetBall();
+                return 0;
+            }
         }
-        else if(mHitBox.top <= 0){
-            mBallY = mBallY + 5;
-            mBallYVelocity = -mBallYVelocity;
-            return true;
-        }
-        else if(mHitBox.right >= w){
-            mBallY = mBallY - 5;
-            mBallXVelocity = -mBallXVelocity;
-            return true;
-        }
-        else if(mHitBox.bottom >= h + mBallYRadius) {
-            mBallCnt--;
-            resetBall();
-            return false;
-        }
-        return true;
+        return 2;
     }
     void resetBall(){
         mBallX = mStartX;
@@ -103,21 +129,74 @@ class Ball {
         mBallXVelocity = 0;
         mBallYVelocity = mBallSpeed;
     }
+    void resetBallCnt(){
+        mCurBalls = mBallCnt;
+    }
 
     RectF getmHitBox() {
         return mHitBox;
     }
 
-    void draw(Canvas canvas){
-        updatePos();
+    void draw(Canvas canvas, boolean paused){
+        updatePos(paused);
         canvas.save();
         canvas.drawBitmap(mBallMap, mBallX, mBallY, mPaint);
         canvas.restore();
     }
-    private void updatePos(){
-        mBallX = mBallX + mBallXVelocity;
-        mBallY = mBallY + mBallYVelocity;
+    private void updatePos(boolean paused){
+        if(!paused) {
+            mBallX = mBallX + mBallXVelocity;
+            mBallY = mBallY + mBallYVelocity;
+            mHitBox.set((int) mBallX, (int) mBallY,
+                    (int) (mBallX + (mBallXRadius)), (int) (mBallY + (mBallYRadius)));
+        }
+    }
+    SerializableBall save(){
+        return new SerializableBall(mBallX, mBallY, mBallXVelocity, mBallYVelocity, mBallCnt, mCurBalls);
+    }
+    void load(SerializableBall save){
+        mBallX = save.getCurX();
+        mBallY = save.getCurY();
+        mBallXVelocity = save.getxVelocity();
+        mBallYVelocity = save.getyVelocity();
+        mBallCnt = save.getBallCnt();
+        mCurBalls = save.getCurBall();
         mHitBox.set((int)mBallX, (int)mBallY,
                 (int)(mBallX + (mBallXRadius)), (int)(mBallY + (mBallYRadius)));
+    }
+}
+class SerializableBall implements Serializable{
+    private float curX, curY, xVelocity, yVelocity;
+    private int ballCnt, curBall;
+    SerializableBall (float x, float y, float xv, float yv, int bc, int cb){
+        curX = x;
+        curY = y;
+        xVelocity = xv;
+        yVelocity = yv;
+        ballCnt = bc;
+        curBall = cb;
+    }
+    int getCurBall(){
+        return curBall;
+    }
+
+    float getCurX() {
+        return curX;
+    }
+
+    float getCurY() {
+        return curY;
+    }
+
+    float getxVelocity() {
+        return xVelocity;
+    }
+
+    float getyVelocity() {
+        return yVelocity;
+    }
+
+    int getBallCnt() {
+        return ballCnt;
     }
 }

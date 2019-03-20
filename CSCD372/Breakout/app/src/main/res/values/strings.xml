@@ -4,7 +4,7 @@
     <string name="settings_string">Settings</string>
     <string name="about_data">Final Project, Winter 2019, Alexander Toenniessen</string>
     <string name="level">Level = </string>
-    <string name="balls">Balls = </string>
+    <string name="balls">Balls Remaining = </string>
     <string name="score">Score = </string>
     <string name="bricks">Bricks = </string>
     <string name="confirm">Confirm?</string>

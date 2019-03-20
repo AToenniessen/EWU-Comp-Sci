@@ -6,9 +6,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-class GameBoard {
+class GameBoard implements Serializable {
     private int[][] mGrid = new int[10][10];
     private RectF[][] mHitBoxes = new RectF[10][10];
     private float[] mBrickDim;
@@ -17,9 +18,18 @@ class GameBoard {
 
     private float mBrickWidth, mBrickHeight;
     private int mBrickCnt, mBricksLeft, mScore = 0, mLevel = 1;
+    private int mBrickHP = -1;
 
     int getmBricksLeft() {
         return mBricksLeft;
+    }
+
+    int getmBrickCnt() {
+        return mBrickCnt;
+    }
+
+    int getmBrickHP() {
+        return mBrickHP;
     }
 
     int getmScore() {
@@ -49,8 +59,6 @@ class GameBoard {
         this.mBrickHP = mBrickHP;
     }
 
-    private int mBrickHP;
-
     GameBoard(float w, float h) {
         mBrickWidth = w;
         mBrickHeight = h;
@@ -74,6 +82,13 @@ class GameBoard {
                 changeColor(mGrid[row][cell]);
                 canvas.drawPath(mBrickPath, mPaint);
                 canvas.restore();
+            }
+        }
+    }
+    void resetHealth(){
+        for(int row = 0; row < 10; row++){
+            for( int col = 0; col < 10; col ++){
+                mGrid[row][col] = mGrid[row][col] != 0 ? mBrickHP : 0;
             }
         }
     }
@@ -133,6 +148,10 @@ class GameBoard {
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 RectF cell = mHitBoxes[x][y];
+                if(mGrid[x][y] == 0 && cell != null) {
+                    mHitBoxes[x][y] = null;
+                    cell = null;
+                }
                 if (cell != null && ball.intersect(cell)) {
                     decrementHealth(x, y);
                     return cell;
@@ -140,5 +159,57 @@ class GameBoard {
             }
         }
         return null;
+    }
+    SerializeableBoard save(){
+        return new SerializeableBoard(mGrid, mBrickCnt, mBricksLeft, mScore, mLevel, mBrickHP);
+    }
+    void load(SerializeableBoard save){
+        mGrid = save.getGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                mHitBoxes[row][col] = new RectF((int)(col * mBrickWidth),(int) (row * mBrickHeight),
+                        (int)(col * mBrickWidth) + mBrickWidth, (int)(row * mBrickHeight) + mBrickHeight);
+            }
+        }
+        mBrickCnt = save.getBrickCnt();
+        mBricksLeft = save.getBricksLeft();
+        mScore = save.getScore();
+        mLevel = save.getLevel();
+        mBrickHP = save.getHealth();
+    }
+}
+class SerializeableBoard implements Serializable{
+    private int[][] grid;
+    private int brickCnt, bricksLeft, score, level, health;
+    SerializeableBoard (int[][] g, int bc, int bl, int s, int l, int hp){
+        grid = g;
+        brickCnt = bc;
+        bricksLeft = bl;
+        score = s;
+        level = l;
+        health = hp;
+    }
+    int[][] getGrid() {
+        return grid;
+    }
+
+    int getBrickCnt() {
+        return brickCnt;
+    }
+
+    int getBricksLeft() {
+        return bricksLeft;
+    }
+
+    int getScore() {
+        return score;
+    }
+
+    int getLevel() {
+        return level;
+    }
+
+    int getHealth(){
+        return health;
     }
 }
